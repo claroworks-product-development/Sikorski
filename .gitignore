@@ -1,9 +1,6 @@
 *~
 
 build
+build_all/*
+bins*/*
 .dep
-.project
-.cproject
-.settings/language.settings.xml
-.DS_Store
-workspace.code-workspace
