@@ -507,6 +507,7 @@ void commands_process_packet(unsigned char *data, unsigned int len,
 		mc_configuration *mcconf = mempools_alloc_mcconf();
 		*mcconf = *mc_interface_get_configuration();
 
+#ifdef _STORE_CONFIGS_
 		if (confgenerator_deserialize_mcconf(data, mcconf)) {
 			utils_truncate_number(&mcconf->l_current_max_scale , 0.0, 1.0);
 			utils_truncate_number(&mcconf->l_current_min_scale , 0.0, 1.0);
@@ -534,9 +535,9 @@ void commands_process_packet(unsigned char *data, unsigned int len,
 		} else {
 			commands_printf("Warning: Could not set mcconf due to wrong signature");
 		}
-
-		mempools_free_mcconf(mcconf);
+#else
 #endif
+	mempools_free_mcconf(mcconf);
 	} break;
 
 	case COMM_GET_MCCONF:
