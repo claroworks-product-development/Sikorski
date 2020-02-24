@@ -569,7 +569,8 @@ void commands_process_packet(unsigned char *data, unsigned int len,
 #ifndef	HW_APPCONF_READ_ONLY
 		app_configuration *appconf = mempools_alloc_appconf();
 		*appconf = *app_get_configuration();
-
+		
+#ifdef _STORE_CONFIGS_
 		if (confgenerator_deserialize_appconf(data, appconf)) {
 #ifdef HW_HAS_DUAL_MOTORS
 			// Ignore ID when setting second motor config
@@ -590,8 +591,8 @@ void commands_process_packet(unsigned char *data, unsigned int len,
 		} else {
 			commands_printf("Warning: Could not set appconf due to wrong signature");
 		}
-
-		mempools_free_appconf(appconf);
+#else
+	    commands_printf("appconf disabled");
 #endif
 	} break;
 
