@@ -72,6 +72,7 @@ int32_t confgenerator_serialize_mcconf(uint8_t *buffer, const mc_configuration *
 	buffer_append_float32_auto(buffer, conf->foc_pll_kp, &ind);
 	buffer_append_float32_auto(buffer, conf->foc_pll_ki, &ind);
 	buffer_append_float32_auto(buffer, conf->foc_motor_l, &ind);
+	buffer_append_float32_auto(buffer, conf->foc_motor_ld_lq_diff, &ind);
 	buffer_append_float32_auto(buffer, conf->foc_motor_r, &ind);
 	buffer_append_float32_auto(buffer, conf->foc_motor_flux_linkage, &ind);
 	buffer_append_float32_auto(buffer, conf->foc_observer_gain, &ind);
@@ -365,6 +366,7 @@ bool confgenerator_deserialize_mcconf(const uint8_t *buffer, mc_configuration *c
 	conf->foc_pll_kp = buffer_get_float32_auto(buffer, &ind);
 	conf->foc_pll_ki = buffer_get_float32_auto(buffer, &ind);
 	conf->foc_motor_l = buffer_get_float32_auto(buffer, &ind);
+	conf->foc_motor_ld_lq_diff = buffer_get_float32_auto(buffer, &ind);
 	conf->foc_motor_r = buffer_get_float32_auto(buffer, &ind);
 	conf->foc_motor_flux_linkage = buffer_get_float32_auto(buffer, &ind);
 	conf->foc_observer_gain = buffer_get_float32_auto(buffer, &ind);
@@ -666,6 +668,7 @@ void confgenerator_set_defaults_mcconf(mc_configuration *conf, bool all) {
 	conf->foc_sensor_mode = MCCONF_FOC_SENSOR_MODE;
 	conf->foc_pll_kp = MCCONF_FOC_PLL_KP;
 	conf->foc_pll_ki = MCCONF_FOC_PLL_KI;
+	conf->foc_motor_ld_lq_diff = MCCONF_FOC_MOTOR_LD_LQ_DIFF;
 	conf->foc_observer_gain_slow = MCCONF_FOC_OBSERVER_GAIN_SLOW;
 	conf->foc_duty_dowmramp_kp = MCCONF_FOC_DUTY_DOWNRAMP_KP;
 	conf->foc_duty_dowmramp_ki = MCCONF_FOC_DUTY_DOWNRAMP_KI;
