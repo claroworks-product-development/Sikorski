@@ -166,6 +166,7 @@ typedef struct {
 	float m_hall_dt_diff_now;
 } motor_all_state_t;
 
+
 // Private variables
 static volatile bool m_dccal_done = false;
 static volatile float m_last_adc_isr_duration;
