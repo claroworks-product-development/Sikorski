@@ -51,9 +51,6 @@ brew install openocd
 ```
 
 ## Build
-
-Build and flash the [bootloader](https://github.com/vedderb/bldc-bootloader) first
-
 Clone and build the firmware
 
 ```bash
