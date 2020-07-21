@@ -381,6 +381,11 @@
 #ifndef MCCONF_L_MAX_ABS_CURRENT
 #define MCCONF_L_MAX_ABS_CURRENT	200.0	// The maximum absolute current above which a fault is generated
 #endif
+#ifndef MCCONF_L_DUTY_START
+#define MCCONF_L_DUTY_START				0.9 // Start limiting current at this duty cycle
+#endif
+
+
 // Setting limits
 #define HW_LIM_CURRENT				-150.0, 150.0
 #define HW_LIM_CURRENT_IN			-120.0, 120.0
