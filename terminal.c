@@ -37,6 +37,7 @@
 #include "comm_usb.h"
 #include "comm_usb_serial.h"
 #include "mempools.h"
+#include "crc.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -1036,7 +1037,17 @@ void terminal_process_string(char *str) {
 			}
 		}
 	}
-
+	else if (strcmp(argv[0], "build_date") == 0) {
+		    commands_printf("Build date and time: %s at %s\n", __DATE__, __TIME__);
+	} else if (strcmp(argv[0], "crc") == 0) {
+            unsigned mc_crc0 = mc_interface_get_configuration()->crc;
+			unsigned mc_crc1 = mc_interface_calc_crc(NULL, false);
+			commands_printf(" MC CFG crc: 0x%04X (stored)  0x%04X (recalc)", mc_crc0, mc_crc1);
+			commands_printf(" Discrepancy is expected due to run-time recalculation of config params.\n");
+			unsigned app_crc0 = app_get_configuration()->crc;
+			unsigned app_crc1 = app_calc_crc(NULL);
+			commands_printf("APP CFG crc: 0x%04X (stored)  0x%04X (recalc)\n", app_crc0, app_crc1);
+        }
 	// The help command
 	else if (strcmp(argv[0], "help") == 0) {
 		commands_printf("Valid commands are:");
@@ -1161,6 +1172,9 @@ void terminal_process_string(char *str) {
 
 		commands_printf("hall_analyze [current]");
 		commands_printf("  Rotate motor in open loop and analyze hall sensors.");
+
+		commands_printf("crc");
+		commands_printf("  Print CRC values.");
 
 		commands_printf("io_board_set_output [id] [ch] [state]");
 		commands_printf("  Set digital output of IO board.");
