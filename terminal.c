@@ -1040,8 +1040,7 @@ void terminal_process_string(char *str) {
 				commands_printf("Invalid arguments\n");
 			}
 		}
-	}
-	else if (strcmp(argv[0], "build_date") == 0) {
+	} else if (strcmp(argv[0], "build_date") == 0) {
 		    commands_printf("Build date and time: %s at %s\n", __DATE__, __TIME__);
 	} else if (strcmp(argv[0], "crc") == 0) {
             unsigned mc_crc0 = mc_interface_get_configuration()->crc;
