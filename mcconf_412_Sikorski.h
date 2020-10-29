@@ -214,7 +214,7 @@
 #define MCCONF_FOC_DUTY_DOWNRAMP_KI 200
 
 // Openloop ERPM
-#define MCCONF_FOC_OPENLOOP_RPM 400
+#define MCCONF_FOC_OPENLOOP_RPM 800
 
 // Openloop ERPM at Min Current
 #define MCCONF_FOC_OPENLOOP_RPM_LOW 0
@@ -226,7 +226,7 @@
 #define MCCONF_FOC_D_GAIN_SCALE_MAX_MOD 0.2
 
 // Openloop Hysteresis
-#define MCCONF_FOC_SL_OPENLOOP_HYST 0.1
+#define MCCONF_FOC_SL_OPENLOOP_HYST 0.05
 
 // Openloop Lock Time
 #define MCCONF_FOC_SL_OPENLOOP_T_LOCK 0
@@ -235,7 +235,7 @@
 #define MCCONF_FOC_SL_OPENLOOP_T_RAMP 0.1
 
 // Openloop Time
-#define MCCONF_FOC_SL_OPENLOOP_TIME 0.1
+#define MCCONF_FOC_SL_OPENLOOP_TIME 1.0
 
 // Hall Table [0]
 #define MCCONF_FOC_HALL_TAB_0 255
