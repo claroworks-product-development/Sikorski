@@ -524,6 +524,10 @@ void commands_process_packet(unsigned char *data, unsigned int len,
 			mcconf->lo_current_motor_min_now = mcconf->lo_current_min;
 
 			commands_apply_mcconf_hw_limits(mcconf);
+#ifndef _STORE_CONFIGS_
+			disallow_changing_most_mconf_settings(&mcconf); // mjw: disallow most user settings from being changed
+#endif
+
 			conf_general_store_mc_configuration(mcconf, mc_interface_get_motor_thread() == 2);
 			mc_interface_set_configuration(mcconf);
 			chThdSleepMilliseconds(200);
@@ -535,8 +539,6 @@ void commands_process_packet(unsigned char *data, unsigned int len,
 		} else {
 			commands_printf("Warning: Could not set mcconf due to wrong signature");
 		}
-#else
-#endif
 	mempools_free_mcconf(mcconf);
 	} break;
 
@@ -547,7 +549,7 @@ void commands_process_packet(unsigned char *data, unsigned int len,
 		if (packet_id == COMM_GET_MCCONF) {
 			*mcconf = *mc_interface_get_configuration();
 		} else {
-			confgenerator_set_defaults_mcconf(mcconf);
+			confgenerator_set_defaults_mcconf(&mcconf);
 			volatile const mc_configuration *mcconf_now = mc_interface_get_configuration();
 
 			// Keep the old offsets
