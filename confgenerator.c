@@ -805,8 +805,6 @@ void confgenerator_set_defaults_mcconf(mc_configuration *conf, bool all) {
 	conf->hall_table[6] = MCCONF_HALL_TAB_6;
 	conf->hall_table[7] = MCCONF_HALL_TAB_7;
 	conf->hall_sl_erpm = MCCONF_HALL_ERPM;
-	conf->foc_current_kp = MCCONF_FOC_CURRENT_KP;
-	conf->foc_current_ki = MCCONF_FOC_CURRENT_KI;
 	conf->foc_f_zv = MCCONF_FOC_F_ZV;
 	conf->foc_dt_us = MCCONF_FOC_DT_US;
 	conf->foc_encoder_inverted = MCCONF_FOC_ENCODER_INVERTED;
