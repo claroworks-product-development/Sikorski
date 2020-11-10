@@ -265,6 +265,9 @@ THD_FUNCTION(dac_thread, arg) {
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE);
 	DAC->CR |= DAC_CR_EN2;
 
+
+
+
 	const float current_scaling_factor = MAX_CURRENT_SUM / 4096;
 
 	float current_sum = 0;
