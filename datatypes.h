@@ -721,6 +721,12 @@ typedef enum {
 
 #include "applications/settings.h"
 
+typedef enum {
+	UAVCAN_RAW_MODE_CURRENT = 0,
+	UAVCAN_RAW_MODE_CURRENT_NO_REV_BRAKE,
+	UAVCAN_RAW_MODE_DUTY
+} UAVCAN_RAW_MODE;
+
 typedef struct {
 	// Settings
 	uint8_t controller_id;
@@ -736,6 +742,7 @@ typedef struct {
 	// CAN modes
 	CAN_MODE can_mode;
 	uint8_t uavcan_esc_index;
+	UAVCAN_RAW_MODE uavcan_raw_mode;
 
 	// Application to use
 	app_use app_to_use;
