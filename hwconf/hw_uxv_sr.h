@@ -214,7 +214,7 @@
 #define APPCONF_SEND_CAN_STATUS_RATE_HZ     20
 #define APPCONF_CAN_BAUD_RATE               CAN_BAUD_1M
 #define APPCONF_SEND_CAN_STATUS             CAN_STATUS_1_2_3_4
-#define MAX_CURRENT_SUM                     1000
+#define MAX_CURRENT_SUM                     700
 
 // Measurement macros
 #define ADC_V_L1				ADC_Value[ADC_IND_SENS1]

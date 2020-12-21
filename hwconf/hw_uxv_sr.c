@@ -28,7 +28,7 @@
 
 // Threads
 THD_FUNCTION(dac_thread, arg);
-static THD_WORKING_AREA(dac_thread_wa, 512);
+static THD_WORKING_AREA(dac_thread_wa, 1024);
 static bool dac_thread_running = false;
 
 // Variables
@@ -275,7 +275,7 @@ THD_FUNCTION(dac_thread, arg) {
 
 	for(;;) {
 		current_sum = mc_interface_get_tot_current_in_filtered();
-
+		current_sum += ADC_Value[ADC_IND_CURR_AUX]*FAC_CURRENT_AUX;
 		for (int i = 0;i < CAN_STATUS_MSGS_TO_STORE;i++) {
 			can_status_msg_4 *msg4 = comm_can_get_status_msg_4_index(i);
 			if (msg4->id >= 0 && UTILS_AGE_S(msg4->rx_time) < 0.1) {
