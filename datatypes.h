@@ -963,6 +963,7 @@ typedef enum {
 	COMM_ERASE_BOOTLOADER_ALL_CAN_HW,
 
 	COMM_SET_ODOMETER,
+	COMM_GET_BATTERY_CUT,
 
 	// Power switch commands
 	COMM_PSW_GET_STATUS,
