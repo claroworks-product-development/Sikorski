@@ -10,3 +10,6 @@ bins*/*
 downloads/*
 tools/*
 Project/*
+
+.DS_Store
+workspace.code-workspace
