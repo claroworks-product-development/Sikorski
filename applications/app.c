@@ -139,8 +139,6 @@ void app_set_configuration(app_configuration *conf) {
 	case APP_CUSTOM:
 #ifdef APP_CUSTOM_TO_USE
 		app_custom_start();
-		app_uartcomm_start(UART_PORT_COMM_HEADER);
-
 #endif
 		hw_stop_i2c();
 		app_sikorski_init(); // Claroworks application
