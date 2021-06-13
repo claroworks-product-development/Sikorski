@@ -539,8 +539,9 @@ bool conf_general_detect_motor_param(float current, float min_rpm, float low_dut
 	// Disable timeout
 	systime_t tout = timeout_get_timeout_msec();
 	float tout_c = timeout_get_brake_current();
+	KILL_SW_MODE tout_ksw = timeout_get_kill_sw_mode();
 	timeout_reset();
-	timeout_configure(60000, 0.0);
+	timeout_configure(60000, 0.0, KILL_SW_MODE_DISABLED);
 
 	mc_interface_lock();
 
@@ -605,7 +606,7 @@ bool conf_general_detect_motor_param(float current, float min_rpm, float low_dut
 
 	if (!started) {
 		mc_interface_set_current(0.0);
-		timeout_configure(tout, tout_c);
+		timeout_configure(tout, tout_c, tout_ksw);
 		mc_interface_set_configuration(mcconf_old);
 		mc_interface_unlock();
 		mempools_free_mcconf(mcconf);
@@ -697,7 +698,7 @@ bool conf_general_detect_motor_param(float current, float min_rpm, float low_dut
 
 	// Restore settings
 	mc_interface_set_configuration(mcconf_old);
-	timeout_configure(tout, tout_c);
+	timeout_configure(tout, tout_c, tout_ksw);
 
 	mc_interface_unlock();
 
@@ -770,8 +771,9 @@ bool conf_general_measure_flux_linkage(float current, float duty,
 	// Disable timeout
 	systime_t tout = timeout_get_timeout_msec();
 	float tout_c = timeout_get_brake_current();
+	KILL_SW_MODE tout_ksw = timeout_get_kill_sw_mode();
 	timeout_reset();
-	timeout_configure(60000, 0.0);
+	timeout_configure(60000, 0.0, KILL_SW_MODE_DISABLED);
 
 	mc_interface_lock();
 
@@ -846,7 +848,7 @@ bool conf_general_measure_flux_linkage(float current, float duty,
 
 	if (!started) {
 		mc_interface_set_current(0.0);
-		timeout_configure(tout, tout_c);
+		timeout_configure(tout, tout_c, tout_ksw);
 		mc_interface_set_configuration(mcconf);
 		mc_interface_unlock();
 		mempools_free_mcconf(mcconf);
@@ -869,7 +871,7 @@ bool conf_general_measure_flux_linkage(float current, float duty,
 		chThdSleepMilliseconds(1.0);
 	}
 
-	timeout_configure(tout, tout_c);
+	timeout_configure(tout, tout_c, tout_ksw);
 	mc_interface_set_configuration(mcconf_old);
 	mc_interface_unlock();
 	mc_interface_set_current(0.0);
@@ -986,8 +988,9 @@ bool conf_general_measure_flux_linkage_openloop(float current, float duty,
 	// Disable timeout
 	systime_t tout = timeout_get_timeout_msec();
 	float tout_c = timeout_get_brake_current();
+	KILL_SW_MODE tout_ksw = timeout_get_kill_sw_mode();
 	timeout_reset();
-	timeout_configure(60000, 0.0);
+	timeout_configure(60000, 0.0, KILL_SW_MODE_DISABLED);
 
 	mc_interface_lock();
 
@@ -1108,7 +1111,7 @@ bool conf_general_measure_flux_linkage_openloop(float current, float duty,
 		result = true;
 	}
 
-	timeout_configure(tout, tout_c);
+	timeout_configure(tout, tout_c, tout_ksw);
 	mc_interface_unlock();
 	mc_interface_release_motor();
 	mc_interface_wait_for_motor_release(1.0);
@@ -1174,8 +1177,9 @@ int conf_general_autodetect_apply_sensors_foc(float current,
 	// Disable timeout
 	systime_t tout = timeout_get_timeout_msec();
 	float tout_c = timeout_get_brake_current();
+	KILL_SW_MODE tout_ksw = timeout_get_kill_sw_mode();
 	timeout_reset();
-	timeout_configure(60000, 0.0);
+	timeout_configure(60000, 0.0, KILL_SW_MODE_DISABLED);
 
 	mc_interface_lock();
 
@@ -1250,7 +1254,7 @@ int conf_general_autodetect_apply_sensors_foc(float current,
 		res = true;
 	}
 
-	timeout_configure(tout, tout_c);
+	timeout_configure(tout, tout_c, tout_ksw);
 	mc_interface_unlock();
 	mc_interface_release_motor();
 	mc_interface_wait_for_motor_release(1.0);
@@ -1539,8 +1543,9 @@ int conf_general_detect_apply_all_foc(float max_power_loss,
 	// Disable timeout
 	systime_t tout = timeout_get_timeout_msec();
 	float tout_c = timeout_get_brake_current();
+	KILL_SW_MODE tout_ksw = timeout_get_kill_sw_mode();
 	timeout_reset();
-	timeout_configure(60000, 0.0);
+	timeout_configure(60000, 0.0, KILL_SW_MODE_DISABLED);
 
 	mc_interface_lock();
 
@@ -1573,7 +1578,7 @@ int conf_general_detect_apply_all_foc(float max_power_loss,
 #endif
 
 	if (!res_r_l_imax_m1 || !res_r_l_imax_m2) {
-		timeout_configure(tout, tout_c);
+		timeout_configure(tout, tout_c, tout_ksw);
 		mc_interface_unlock();
 		mc_interface_release_motor();
 		mc_interface_wait_for_motor_release(1.0);
@@ -1698,7 +1703,7 @@ int conf_general_detect_apply_all_foc(float max_power_loss,
 		result = -10;
 	}
 
-	timeout_configure(tout, tout_c);
+	timeout_configure(tout, tout_c, tout_ksw);
 	mc_interface_lock_override_once();
 	mc_interface_release_motor();
 	mc_interface_wait_for_motor_release(1.0);
