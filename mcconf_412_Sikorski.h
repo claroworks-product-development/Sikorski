@@ -67,10 +67,10 @@
 #define MCCONF_L_LIM_TEMP_FET_END 100
 
 // Motor Temp Cutoff Start
-#define MCCONF_L_LIM_TEMP_MOTOR_START 85
+#define MCCONF_L_LIM_TEMP_MOTOR_START 155
 
 // Motor Temp Cutoff End
-#define MCCONF_L_LIM_TEMP_MOTOR_END 100
+#define MCCONF_L_LIM_TEMP_MOTOR_END 200
 
 // Acceleration Temperature Decrease
 #define MCCONF_L_LIM_TEMP_ACCEL_DEC 0.15
