@@ -47,10 +47,10 @@
 #define SEVENSEG_DIGITS 5
 
 // this is the raw HT16K33 controller
-void LED_begin(void);
-void LED_setBrightness(uint8_t b);
-void LED_blinkRate(uint8_t b);
-void LED_writeDisplay(void);
+void LED_begin(i2caddr_t i2caddr);
+void LED_setBrightness(i2caddr_t i2caddr, uint8_t b);
+void LED_blinkRate(i2caddr_t i2caddr, uint8_t b);
+void LED_writeDisplay(i2caddr_t i2caddr);
 void LED_clear(void);
 
 void LED_drawPixel(int16_t x, int16_t y, uint16_t color);
