@@ -181,10 +181,8 @@ static THD_FUNCTION(switch_thread, arg) // @suppress("No return")
             sw = 0;
         }
 
-        int i = 0;
         if(settings->magic != VALID_VALUE)
         {
-            display_dots(i++);
             chThdSleepMilliseconds(500);   // sleep long enough for other applications to be online
         }
         else
