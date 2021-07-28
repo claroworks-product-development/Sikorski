@@ -42,12 +42,12 @@ uint16_t displaybuffer[8];
 static i2c_bb_state i2cs;
 uint8_t rxbuf[2];
 uint8_t txbuf[20];
-i2caddr_t i2caddr = 0x70;
 
 msg_t status = MSG_OK;
 systime_t tmo = MS2ST(5);
 
-void LED_begin(void) {
+
+void LED_begin(i2caddr_t i2caddr) {
 
     i2cs.sda_gpio = HW_I2C_SDA_PORT;
     i2cs.sda_pin = HW_I2C_SDA_PIN;
@@ -61,11 +61,11 @@ void LED_begin(void) {
     txbuf[0] = 0x21;
     i2c_bb_tx_rx(&i2cs, i2caddr, txbuf, 1, 0, 0);
 
-	LED_blinkRate(HT16K33_BLINK_OFF);
-	LED_setBrightness(15); // max brightness
+	LED_blinkRate(i2caddr, HT16K33_BLINK_OFF);
+	LED_setBrightness(i2caddr, 15); // max brightness
 }
 
-void LED_setBrightness(uint8_t b) {
+void LED_setBrightness(i2caddr_t i2caddr, uint8_t b) {
 	if (b > 15)
 		b = 15;
 
@@ -75,7 +75,7 @@ void LED_setBrightness(uint8_t b) {
     i2c_bb_tx_rx(&i2cs, i2caddr, txbuf, 1, 0, 0);
 }
 
-void LED_blinkRate(uint8_t b) {
+void LED_blinkRate(i2caddr_t i2caddr, uint8_t b) {
 	if (b > 3)
 		b = 0;
 
@@ -85,7 +85,7 @@ void LED_blinkRate(uint8_t b) {
     i2c_bb_tx_rx(&i2cs, i2caddr, txbuf, 1, 0, 0);
 }
 
-void LED_writeDisplay(void) {
+void LED_writeDisplay(i2caddr_t i2caddr) {
 	int j =0;
 	txbuf[j++] = 0; // display addr 0
 	for (uint8_t i=0; i<8; i++) {
