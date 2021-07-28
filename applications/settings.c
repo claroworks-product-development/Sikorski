@@ -451,7 +451,7 @@ bool brightness (const char *data)
     settings->brightness = i;
     return true;
 }
-bool disp_rotation (const char *data)
+bool disp_rot1 (const char *data)
 {
     int i;
     int num = sscanf (data, "%i", &i);
@@ -465,7 +465,24 @@ bool disp_rotation (const char *data)
         commands_printf ("out of range. (0-3)\n");
         return false;
     }
-    settings->disp_rotation = i;
+    settings->disp_rot1 = i;
+    return true;
+}
+bool disp_rot2 (const char *data)
+{
+    int i;
+    int num = sscanf (data, "%i", &i);
+    if (num != 1)
+    {
+        commands_printf ("invalid input.\n");
+        return false;
+    }
+    if (i < 0 || i > 3)
+    {
+        commands_printf ("out of range. (0-3)\n");
+        return false;
+    }
+    settings->disp_rot2 = i;
     return true;
 }
 bool power_off_ms (const char *data)
