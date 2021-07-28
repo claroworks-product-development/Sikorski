@@ -90,12 +90,10 @@ void display_battery_graph (bool initial)
     }
 
     // Display a bar graph, up to 4 bars.
-
-    GFX_setRotation (settings->disp_rotation);
+    GFX_setRotation (settings->disp_rot1);
     LED_clear ();   // clear display
 
     // hard-coded checks was more straight forward and readable than a loop.
-
     /* always turn on bar 1 */
     GFX_drawBlk (0, 6, 2, 2);
 
@@ -154,7 +152,7 @@ void display_speed (MESSAGE speed)
     int new_speed = speed - DISP_SPEED_1 + 1;
     if(new_speed > 9 || new_speed < 1)
         return;
-    GFX_setRotation (settings->disp_rotation);
+    GFX_setRotation (settings->disp_rot2);
     GFX_setTextSize (1);
     GFX_setTextColor (LED_ON);
     LED_clear ();
