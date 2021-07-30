@@ -49,6 +49,9 @@ static sikorski_data *settings;
 #define HOLD_DISPLAY_TIME_mS MS2ST(1500)
 static MESSAGE last_speed = 3;
 
+void display_safety_sign(void);
+void display_power_sign(void);
+
 // Start the display thread
 void display_init ()
 {
@@ -162,6 +165,31 @@ void display_speed (MESSAGE speed)
     GFX_print_str (text);
     LED_writeDisplay ();
     DISP_LOG(("Write '%s'", text));
+}
+
+void display_safety_sign(void)
+{
+	const uint8_t safety_bitmap[] = {0x3C,0x42,0xA1,0x91,0x89,0x85,0x42,0x3C};
+
+	GFX_setRotation (settings->disp_rot2);
+    GFX_setTextSize (1);
+    GFX_setTextColor (LED_ON);
+    LED_clear ();
+	GFX_drawBitmap(0,0,safety_bitmap, 8, 8, LED_ON);
+    LED_writeDisplay (LED2);
+    DISP_LOG(("Write (safety)"));
+}
+
+void display_power_sign(void)
+{
+	const uint8_t power_bitmap[] = {0x18,0x5A,0x99,0x99,0x99,0x81,0x42,0x3C};
+	GFX_setRotation (settings->disp_rot2);
+    GFX_setTextSize (1);
+    GFX_setTextColor (LED_ON);
+    LED_clear ();
+	GFX_drawBitmap(0,0,power_bitmap, 8, 8, LED_ON);
+    LED_writeDisplay (LED2);
+    DISP_LOG(("Write (power)"));
 }
 
 #define DISP_RATE 2
