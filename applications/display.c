@@ -234,7 +234,6 @@ void display_idle(void)
 {
     LED_clear ();   // clear display
     LED_writeDisplay (LED1);
-    LED_writeDisplay (LED2);
 }
 
 void display_start(void)
@@ -249,7 +248,6 @@ void display_dots(uint16_t pos)
     LED_drawPixel (pos & 0x07, 7, LED_ON);
     pos++;
     LED_writeDisplay (LED1);
-    LED_writeDisplay (LED2);
 }
 
 static THD_FUNCTION(display_thread, arg) // @suppress("No return")
@@ -275,8 +273,6 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
 
     // clear display & then display voltage meter
     display_battery_graph(true);
-    LED_writeDisplay (LED1);
-    LED_writeDisplay (LED2);
 
     // used during DISP_WAIT to track the dot position
     uint8_t dot_pos = 0;
@@ -286,6 +282,7 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
     systime_t timeout = MS2ST(settings->disp_on_ms); // timeout in ticks. Use MS2ST(milliseconds) to set the value in milliseconds
 
     DISP_STATE state = DISP_PWR_ON;
+    display_power_sign();
 
     for (;;)
     {
@@ -310,6 +307,7 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
             case DISP_ON_TRIGGER:   // rcvd when the motor turns on
                 timeout = HOLD_DISPLAY_TIME_mS;
                 state = DISP_TRIG;
+                display_safety_sign();
                 last_speed = 0;
                 break;
             default:
@@ -348,6 +346,7 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
                 break;
             case DISP_OFF_TRIGGER: 	// rcvd when the motor turns off - start the display cycle by showing the 'waiting' display
                 display_idle();
+                display_power_sign();
                 timeout = MS2ST(settings->disp_beg_ms / 24);	// 8 dots in waiting progression
                 state = DISP_WAIT;
                 dot_pos = 0;
@@ -361,6 +360,7 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
             switch (event)
             {
             case DISP_ON_TRIGGER:   // rcvd when the motor turns on
+                display_safety_sign();
                 last_speed = 0;
                 timeout = HOLD_DISPLAY_TIME_mS;
                 state = DISP_TRIG;
@@ -373,6 +373,8 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
             switch (event)
             {
             case DISP_ON_TRIGGER: 	// rcvd when the motor turns on
+                display_safety_sign();
+                display_idle();
                 last_speed = 0;
                 timeout = HOLD_DISPLAY_TIME_mS;
                 state = DISP_TRIG;
@@ -383,13 +385,13 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
                     timeout = MS2ST(settings->disp_dur_ms);
                     state = DISP_BATT;
                     display_battery_graph(false);
+                    display_power_sign();
                     break;
                 }
                 LED_clear ();
                 LED_drawPixel (dot_pos & 0x07, 7, LED_ON);
                 dot_pos++;
                 LED_writeDisplay (LED1);
-                LED_writeDisplay (LED2);
                 break;
             default:
                 break;
@@ -399,6 +401,7 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
             switch (event)
             {
             case DISP_ON_TRIGGER: 	// rcvd when the motor turns on
+                display_safety_sign();
                 last_speed = 0;
                 timeout = HOLD_DISPLAY_TIME_mS;
                 state = DISP_TRIG;
