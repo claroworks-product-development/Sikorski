@@ -155,25 +155,6 @@ void display_battery_graph (bool initial)
     }
 
     LED_writeDisplay (LED1);
-    LED_writeDisplay (LED2);
-}
-
-void display_speed (MESSAGE speed)
-{
-    int new_speed = speed - DISP_SPEED_1 + 1;
-    if(new_speed > 9 || new_speed < 1)
-        return;
-    GFX_setRotation (settings->disp_rot2);
-    GFX_setTextSize (1);
-    GFX_setTextColor (LED_ON);
-    LED_clear ();
-    GFX_setCursor (1, 0);
-    char text[2] =
-        { '0' + new_speed, '\0' };
-    GFX_print_str (text);
-    LED_writeDisplay (LED1);
-    LED_writeDisplay (LED2);
-    DISP_LOG(("Write '%s'", text));
 }
 
 void display_safety_sign(void)
@@ -199,6 +180,40 @@ void display_power_sign(void)
 	GFX_drawBitmap(0,0,power_bitmap, 8, 8, LED_ON);
     LED_writeDisplay (LED2);
     DISP_LOG(("Write (power)"));
+}
+
+void display_ludicrous(void)
+{
+	const uint8_t power_bitmap[] = {0x3C,0x42,0xA5,0x81,0xA5,0x99,0x42,0x3C};
+	GFX_setRotation (settings->disp_rot2);
+    GFX_setTextSize (1);
+    GFX_setTextColor (LED_ON);
+    LED_clear ();
+	GFX_drawBitmap(0,0,power_bitmap, 8, 8, LED_ON);
+    LED_writeDisplay (LED2);
+    DISP_LOG(("Write (smile)"));
+}
+
+void display_speed (MESSAGE speed)
+{
+    int new_speed = speed - DISP_SPEED_1 + 1;
+    if(new_speed == 8)
+    {
+    	display_ludicrous();
+    	return;
+    }
+    if(new_speed > 9 || new_speed < 1)
+        return;
+    GFX_setRotation (settings->disp_rot2);
+    GFX_setTextSize (1);
+    GFX_setTextColor (LED_ON);
+    LED_clear ();
+    GFX_setCursor (1, 0);
+    char text[2] =
+        { '0' + new_speed, '\0' };
+    GFX_print_str (text);
+    LED_writeDisplay (LED2);
+    DISP_LOG(("Write '%s'", text));
 }
 
 #define DISP_RATE 2
