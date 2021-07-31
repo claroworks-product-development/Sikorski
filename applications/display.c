@@ -52,6 +52,10 @@ static MESSAGE last_speed = 3;
 void display_safety_sign(void);
 void display_power_sign(void);
 
+i2caddr_t LED1 = 0x70;
+i2caddr_t LED2 = 0x71;
+
+
 // Start the display thread
 void display_init ()
 {
@@ -77,6 +81,8 @@ void GFX_drawBlk (int16_t x, int16_t y, int16_t w, int16_t h)
         }
     }
 }
+
+extern void GFX_drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color);
 
 void display_battery_graph (bool initial)
 {
@@ -113,7 +119,8 @@ void display_battery_graph (bool initial)
         GFX_drawBlk (6, 0, 2, 8);
     }
 
-    LED_blinkRate (0);
+    LED_blinkRate (LED1, 0);
+    LED_blinkRate (LED2, 0);
 
     // When there is an imbalance in the battery charge between two batteries,
     // indicate to the user which one is low (defective).
@@ -147,7 +154,8 @@ void display_battery_graph (bool initial)
         DISP_LOG(("Displaying '2'"));
     }
 
-    LED_writeDisplay ();
+    LED_writeDisplay (LED1);
+    LED_writeDisplay (LED2);
 }
 
 void display_speed (MESSAGE speed)
@@ -163,7 +171,8 @@ void display_speed (MESSAGE speed)
     char text[2] =
         { '0' + new_speed, '\0' };
     GFX_print_str (text);
-    LED_writeDisplay ();
+    LED_writeDisplay (LED1);
+    LED_writeDisplay (LED2);
     DISP_LOG(("Write '%s'", text));
 }
 
@@ -209,12 +218,14 @@ const char *const disp_states[] =
 void display_idle(void)
 {
     LED_clear ();   // clear display
-    LED_writeDisplay ();
+    LED_writeDisplay (LED1);
+    LED_writeDisplay (LED2);
 }
 
 void display_start(void)
 {
-    LED_begin();
+    LED_begin(LED1);
+    LED_begin(LED2);
 }
 
 void display_dots(uint16_t pos)
@@ -222,7 +233,8 @@ void display_dots(uint16_t pos)
     LED_clear ();
     LED_drawPixel (pos & 0x07, 7, LED_ON);
     pos++;
-    LED_writeDisplay ();
+    LED_writeDisplay (LED1);
+    LED_writeDisplay (LED2);
 }
 
 static THD_FUNCTION(display_thread, arg) // @suppress("No return")
@@ -248,7 +260,8 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
 
     // clear display & then display voltage meter
     display_battery_graph(true);
-    LED_writeDisplay ();
+    LED_writeDisplay (LED1);
+    LED_writeDisplay (LED2);
 
     // used during DISP_WAIT to track the dot position
     uint8_t dot_pos = 0;
@@ -360,7 +373,8 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
                 LED_clear ();
                 LED_drawPixel (dot_pos & 0x07, 7, LED_ON);
                 dot_pos++;
-                LED_writeDisplay ();
+                LED_writeDisplay (LED1);
+                LED_writeDisplay (LED2);
                 break;
             default:
                 break;
