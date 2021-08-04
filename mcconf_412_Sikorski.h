@@ -34,7 +34,7 @@
 #define MCCONF_L_RPM_MIN -26000
 
 // Max ERPM
-#define MCCONF_L_RPM_MAX 100000
+#define MCCONF_L_RPM_MAX 5000
 
 // ERPM Limit Start
 #define MCCONF_L_RPM_START 0.85
@@ -46,7 +46,7 @@
 #define MCCONF_L_CURR_MAX_RPM_FBRAKE_CC 1500
 
 // Minimum Input Voltage
-#define MCCONF_L_MIN_VOLTAGE 29
+#define MCCONF_L_MIN_VOLTAGE 8
 
 // Maximum Input Voltage
 #define MCCONF_L_MAX_VOLTAGE 63
@@ -76,7 +76,7 @@
 #define MCCONF_L_LIM_TEMP_ACCEL_DEC 0
 
 // Minimum Duty Cycle
-#define MCCONF_L_MIN_DUTY 0.001
+#define MCCONF_L_MIN_DUTY 0.005
 
 // Maximum Duty Cycle
 #define MCCONF_L_MAX_DUTY 0.95
@@ -205,7 +205,7 @@
 #define MCCONF_FOC_OBSERVER_GAIN 710000
 
 // Observer Gain At Minimum Duty
-#define MCCONF_FOC_OBSERVER_GAIN_SLOW 0.3
+#define MCCONF_FOC_OBSERVER_GAIN_SLOW 0.05
 
 // Duty Downramp Kp
 #define MCCONF_FOC_DUTY_DOWNRAMP_KP 10
@@ -214,7 +214,7 @@
 #define MCCONF_FOC_DUTY_DOWNRAMP_KI 200
 
 // Openloop ERPM
-#define MCCONF_FOC_OPENLOOP_RPM 800
+#define MCCONF_FOC_OPENLOOP_RPM 1500
 
 // Openloop ERPM at Min Current
 #define MCCONF_FOC_OPENLOOP_RPM_LOW 0
@@ -496,6 +496,7 @@
 
 // Temperature Limit Start
 #define MCCONF_BMS_T_LIMIT_START 45
+
 // Temperature Limit End
 #define MCCONF_BMS_T_LIMIT_END 65
 
@@ -508,6 +509,6 @@
 // Forward CAN to Local
 #define MCCONF_BMS_FWD_CAN_MODE 0
 
-// MCCONF_DXTRAS_H_
+// MCCONF_412_SIKORSKI_H_
 #endif
 
