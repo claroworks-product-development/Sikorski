@@ -49,6 +49,13 @@ static sikorski_data *settings;
 #define HOLD_DISPLAY_TIME_mS MS2ST(1500)
 static MESSAGE last_speed = 3;
 
+void display_safety_sign(void);
+void display_power_sign(void);
+
+i2caddr_t LED1 = 0x70;
+i2caddr_t LED2 = 0x71;
+
+
 // Start the display thread
 void display_init ()
 {
@@ -75,6 +82,8 @@ void GFX_drawBlk (int16_t x, int16_t y, int16_t w, int16_t h)
     }
 }
 
+extern void GFX_drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], int16_t w, int16_t h, uint16_t color);
+
 void display_battery_graph (bool initial)
 {
     float pack_level;
@@ -90,12 +99,10 @@ void display_battery_graph (bool initial)
     }
 
     // Display a bar graph, up to 4 bars.
-
-    GFX_setRotation (settings->disp_rotation);
+    GFX_setRotation (settings->disp_rot1);
     LED_clear ();   // clear display
 
     // hard-coded checks was more straight forward and readable than a loop.
-
     /* always turn on bar 1 */
     GFX_drawBlk (0, 6, 2, 2);
 
@@ -112,7 +119,8 @@ void display_battery_graph (bool initial)
         GFX_drawBlk (6, 0, 2, 8);
     }
 
-    LED_blinkRate (0);
+    LED_blinkRate (LED1, 0);
+    LED_blinkRate (LED2, 0);
 
     // When there is an imbalance in the battery charge between two batteries,
     // indicate to the user which one is low (defective).
@@ -146,15 +154,57 @@ void display_battery_graph (bool initial)
         DISP_LOG(("Displaying '2'"));
     }
 
-    LED_writeDisplay ();
+    LED_writeDisplay (LED1);
+}
+
+void display_safety_sign(void)
+{
+	const uint8_t safety_bitmap[] = {0x3C,0x42,0xA1,0x91,0x89,0x85,0x42,0x3C};
+
+	GFX_setRotation (settings->disp_rot2);
+    GFX_setTextSize (1);
+    GFX_setTextColor (LED_ON);
+    LED_clear ();
+	GFX_drawBitmap(0,0,safety_bitmap, 8, 8, LED_ON);
+    LED_writeDisplay (LED2);
+    DISP_LOG(("Write (safety)"));
+}
+
+void display_power_sign(void)
+{
+	const uint8_t power_bitmap[] = {0x18,0x5A,0x99,0x99,0x99,0x81,0x42,0x3C};
+	GFX_setRotation (settings->disp_rot2);
+    GFX_setTextSize (1);
+    GFX_setTextColor (LED_ON);
+    LED_clear ();
+	GFX_drawBitmap(0,0,power_bitmap, 8, 8, LED_ON);
+    LED_writeDisplay (LED2);
+    DISP_LOG(("Write (power)"));
+}
+
+void display_ludicrous(void)
+{
+	const uint8_t power_bitmap[] = {0x3C,0x42,0xA5,0x81,0xA5,0x99,0x42,0x3C};
+	GFX_setRotation (settings->disp_rot2);
+    GFX_setTextSize (1);
+    GFX_setTextColor (LED_ON);
+    LED_clear ();
+	GFX_drawBitmap(0,0,power_bitmap, 8, 8, LED_ON);
+    LED_writeDisplay (LED2);
+    DISP_LOG(("Write (smile)"));
 }
 
 void display_speed (MESSAGE speed)
 {
     int new_speed = speed - DISP_SPEED_1 + 1;
+    if(new_speed == 8)
+    {
+    	display_ludicrous();
+    	return;
+    }
     if(new_speed > 9 || new_speed < 1)
         return;
-    GFX_setRotation (settings->disp_rotation);
+    GFX_setRotation (settings->disp_rot2);
     GFX_setTextSize (1);
     GFX_setTextColor (LED_ON);
     LED_clear ();
@@ -162,7 +212,7 @@ void display_speed (MESSAGE speed)
     char text[2] =
         { '0' + new_speed, '\0' };
     GFX_print_str (text);
-    LED_writeDisplay ();
+    LED_writeDisplay (LED2);
     DISP_LOG(("Write '%s'", text));
 }
 
@@ -183,12 +233,13 @@ const char *const disp_states[] =
 void display_idle(void)
 {
     LED_clear ();   // clear display
-    LED_writeDisplay ();
+    LED_writeDisplay (LED1);
 }
 
 void display_start(void)
 {
-    LED_begin();
+    LED_begin(LED1);
+    LED_begin(LED2);
 }
 
 void display_dots(uint16_t pos)
@@ -196,7 +247,7 @@ void display_dots(uint16_t pos)
     LED_clear ();
     LED_drawPixel (pos & 0x07, 7, LED_ON);
     pos++;
-    LED_writeDisplay ();
+    LED_writeDisplay (LED1);
 }
 
 static THD_FUNCTION(display_thread, arg) // @suppress("No return")
@@ -222,7 +273,6 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
 
     // clear display & then display voltage meter
     display_battery_graph(true);
-    LED_writeDisplay ();
 
     // used during DISP_WAIT to track the dot position
     uint8_t dot_pos = 0;
@@ -232,6 +282,7 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
     systime_t timeout = MS2ST(settings->disp_on_ms); // timeout in ticks. Use MS2ST(milliseconds) to set the value in milliseconds
 
     DISP_STATE state = DISP_PWR_ON;
+    display_power_sign();
 
     for (;;)
     {
@@ -256,6 +307,7 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
             case DISP_ON_TRIGGER:   // rcvd when the motor turns on
                 timeout = HOLD_DISPLAY_TIME_mS;
                 state = DISP_TRIG;
+                display_safety_sign();
                 last_speed = 0;
                 break;
             default:
@@ -265,7 +317,10 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
             break;
         case DISP_TRIG:
             if (event >= DISP_SPEED_1 && event <= DISP_SPEED_9) // don't handle above speed 9, rewrite as needed to support...
+            {
                 last_speed = event;
+                display_speed (last_speed);
+            }
 
             switch (event)
             {
@@ -294,6 +349,7 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
                 break;
             case DISP_OFF_TRIGGER: 	// rcvd when the motor turns off - start the display cycle by showing the 'waiting' display
                 display_idle();
+                display_power_sign();
                 timeout = MS2ST(settings->disp_beg_ms / 24);	// 8 dots in waiting progression
                 state = DISP_WAIT;
                 dot_pos = 0;
@@ -307,6 +363,7 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
             switch (event)
             {
             case DISP_ON_TRIGGER:   // rcvd when the motor turns on
+                display_safety_sign();
                 last_speed = 0;
                 timeout = HOLD_DISPLAY_TIME_mS;
                 state = DISP_TRIG;
@@ -319,6 +376,8 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
             switch (event)
             {
             case DISP_ON_TRIGGER: 	// rcvd when the motor turns on
+                display_safety_sign();
+                display_idle();
                 last_speed = 0;
                 timeout = HOLD_DISPLAY_TIME_mS;
                 state = DISP_TRIG;
@@ -329,12 +388,13 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
                     timeout = MS2ST(settings->disp_dur_ms);
                     state = DISP_BATT;
                     display_battery_graph(false);
+                    display_power_sign();
                     break;
                 }
                 LED_clear ();
                 LED_drawPixel (dot_pos & 0x07, 7, LED_ON);
                 dot_pos++;
-                LED_writeDisplay ();
+                LED_writeDisplay (LED1);
                 break;
             default:
                 break;
@@ -344,6 +404,7 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
             switch (event)
             {
             case DISP_ON_TRIGGER: 	// rcvd when the motor turns on
+                display_safety_sign();
                 last_speed = 0;
                 timeout = HOLD_DISPLAY_TIME_mS;
                 state = DISP_TRIG;
