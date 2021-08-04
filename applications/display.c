@@ -317,7 +317,10 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
             break;
         case DISP_TRIG:
             if (event >= DISP_SPEED_1 && event <= DISP_SPEED_9) // don't handle above speed 9, rewrite as needed to support...
+            {
                 last_speed = event;
+                display_speed (last_speed);
+            }
 
             switch (event)
             {
