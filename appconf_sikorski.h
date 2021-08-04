@@ -7,7 +7,6 @@
 // DISABLED for normal use.
 #define _STORE_CONFIGS_
 
-
 // VESC ID
 #define APPCONF_CONTROLLER_ID 27
 
