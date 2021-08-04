@@ -16,25 +16,25 @@
 #define MCCONF_SENSOR_MODE 0
 
 // Motor Current Max
-#define MCCONF_L_CURRENT_MAX 40
+#define MCCONF_L_CURRENT_MAX 100
 
 // Motor Current Max Brake
-#define MCCONF_L_CURRENT_MIN -40
+#define MCCONF_L_CURRENT_MIN -100
 
 // Battery Current Max
-#define MCCONF_L_IN_CURRENT_MAX 28
+#define MCCONF_L_IN_CURRENT_MAX 1
 
 // Battery Current Max Regen
-#define MCCONF_L_IN_CURRENT_MIN -1
+#define MCCONF_L_IN_CURRENT_MIN -100
 
 // Absolute Maximum Current
-#define MCCONF_L_MAX_ABS_CURRENT 75
+#define MCCONF_L_MAX_ABS_CURRENT 150
 
 // Max ERPM Reverse
 #define MCCONF_L_RPM_MIN -100000
 
 // Max ERPM
-#define MCCONF_L_RPM_MAX 5000
+#define MCCONF_L_RPM_MAX 1500
 
 // ERPM Limit Start
 #define MCCONF_L_RPM_START 0.8
@@ -46,7 +46,7 @@
 #define MCCONF_L_CURR_MAX_RPM_FBRAKE_CC 1500
 
 // Minimum Input Voltage
-#define MCCONF_L_MIN_VOLTAGE 29
+#define MCCONF_L_MIN_VOLTAGE 8
 
 // Maximum Input Voltage
 #define MCCONF_L_MAX_VOLTAGE 57
@@ -73,10 +73,10 @@
 #define MCCONF_L_LIM_TEMP_MOTOR_END 155
 
 // Acceleration Temperature Decrease
-#define MCCONF_L_LIM_TEMP_ACCEL_DEC 0.15
+#define MCCONF_L_LIM_TEMP_ACCEL_DEC 0
 
 // Minimum Duty Cycle
-#define MCCONF_L_MIN_DUTY 0.001
+#define MCCONF_L_MIN_DUTY 0.005
 
 // Maximum Duty Cycle
 #define MCCONF_L_MAX_DUTY 0.95
@@ -93,8 +93,11 @@
 // Min Current Scale
 #define MCCONF_L_CURRENT_MIN_SCALE 1
 
+// Duty Cycle Current Limit Start
+#define MCCONF_L_DUTY_START 1
+
 // Minimum ERPM
-#define MCCONF_SL_MIN_RPM 50
+#define MCCONF_SL_MIN_RPM 150
 
 // Minimum ERPM Integrator
 #define MCCONF_SL_MIN_ERPM_CYCLE_INT_LIMIT 1100
@@ -103,7 +106,7 @@
 #define MCCONF_SL_MAX_FB_CURR_DIR_CHANGE 10
 
 // Cycle Integrator Limit
-#define MCCONF_SL_CYCLE_INT_LIMIT 390
+#define MCCONF_SL_CYCLE_INT_LIMIT 62
 
 // Phase Advance at BR ERPM
 #define MCCONF_SL_PHASE_ADVANCE_AT_BR 0.8
@@ -112,7 +115,7 @@
 #define MCCONF_SL_CYCLE_INT_BR 80000
 
 // BEMF Coupling
-#define MCCONF_SL_BEMF_COUPLING_K 460
+#define MCCONF_SL_BEMF_COUPLING_K 600
 
 // Hall Table [0]
 #define MCCONF_HALL_TAB_0 -1
@@ -142,16 +145,16 @@
 #define MCCONF_HALL_ERPM 2000
 
 // Current KP
-#define MCCONF_FOC_CURRENT_KP 0.0331
+#define MCCONF_FOC_CURRENT_KP 0.0466
 
 // Current KI
-#define MCCONF_FOC_CURRENT_KI 20.45
+#define MCCONF_FOC_CURRENT_KI 14.34
 
 // Switching Frequency
 #define MCCONF_FOC_F_SW 25000
 
 // Dead Time Compensation
-#define MCCONF_FOC_DT_US 0.08
+#define MCCONF_FOC_DT_US 0.12
 
 // Encoder Inverted
 #define MCCONF_FOC_ENCODER_INVERTED 0
@@ -187,19 +190,22 @@
 #define MCCONF_FOC_PLL_KI 30000
 
 // Motor Inductance (L)
-#define MCCONF_FOC_MOTOR_L 0.00013227
+#define MCCONF_FOC_MOTOR_L 4.661e-05
+
+// Motor Inductance Difference (Ld - Lq)
+#define MCCONF_FOC_MOTOR_LD_LQ_DIFF 0
 
 // Motor Resistance (R)
-#define MCCONF_FOC_MOTOR_R 0.0808
+#define MCCONF_FOC_MOTOR_R 0.0143
 
-// Motor Flux Linkage (λ)
-#define MCCONF_FOC_MOTOR_FLUX_LINKAGE 0.019014
+// Motor Flux Linkage (?)
+#define MCCONF_FOC_MOTOR_FLUX_LINKAGE 0.01425
 
 // Observer Gain (x1M)
-#define MCCONF_FOC_OBSERVER_GAIN 200000
+#define MCCONF_FOC_OBSERVER_GAIN 4.92e+06
 
 // Observer Gain At Minimum Duty
-#define MCCONF_FOC_OBSERVER_GAIN_SLOW 0.3
+#define MCCONF_FOC_OBSERVER_GAIN_SLOW 0.05
 
 // Duty Downramp Kp
 #define MCCONF_FOC_DUTY_DOWNRAMP_KP 10
@@ -208,19 +214,28 @@
 #define MCCONF_FOC_DUTY_DOWNRAMP_KI 200
 
 // Openloop ERPM
-#define MCCONF_FOC_OPENLOOP_RPM 800
+#define MCCONF_FOC_OPENLOOP_RPM 1500
+
+// Openloop ERPM at Min Current
+#define MCCONF_FOC_OPENLOOP_RPM_LOW 0.1
+
+// D Axis Gain Scaling Start
+#define MCCONF_FOC_D_GAIN_SCALE_START 0.9
+
+// D Axis Gain Scaling at Max Mod
+#define MCCONF_FOC_D_GAIN_SCALE_MAX_MOD 0.2
 
 // Openloop Hysteresis
 #define MCCONF_FOC_SL_OPENLOOP_HYST 0.1
 
+// Openloop Lock Time
+#define MCCONF_FOC_SL_OPENLOOP_T_LOCK 0
+
+// Openloop Ramp Time
+#define MCCONF_FOC_SL_OPENLOOP_T_RAMP 0
+
 // Openloop Time
-#define MCCONF_FOC_SL_OPENLOOP_TIME 0.1
-
-// D Current Injection Duty
-#define MCCONF_FOC_SL_D_CURRENT_DUTY 0
-
-// D Current Injection Factor
-#define MCCONF_FOC_SL_D_CURRENT_FACTOR 0
+#define MCCONF_FOC_SL_OPENLOOP_TIME 0.05
 
 // Hall Table [0]
 #define MCCONF_FOC_HALL_TAB_0 255
@@ -246,8 +261,11 @@
 // Hall Table [7]
 #define MCCONF_FOC_HALL_TAB_7 255
 
+// Hall Interpolation ERPM
+#define MCCONF_FOC_HALL_INTERP_ERPM 500
+
 // Sensorless ERPM
-#define MCCONF_FOC_SL_ERPM 4000
+#define MCCONF_FOC_SL_ERPM 2500
 
 // Sample in V0 and V7
 #define MCCONF_FOC_SAMPLE_V0_V7 0
@@ -268,7 +286,7 @@
 #define MCCONF_FOC_CURRENT_FILTER_CONST 0.1
 
 // Current Controller Decoupling
-#define MCCONF_FOC_CC_DECOUPLING 3
+#define MCCONF_FOC_CC_DECOUPLING 2
 
 // Observer Type
 #define MCCONF_FOC_OBSERVER_TYPE 0
@@ -313,19 +331,22 @@
 #define MCCONF_S_PID_KP 0.004
 
 // Speed PID Ki
-#define MCCONF_S_PID_KI 0.015
+#define MCCONF_S_PID_KI 0.004
 
 // Speed PID Kd
-#define MCCONF_S_PID_KD 0.0004
+#define MCCONF_S_PID_KD 0.0001
 
 // Speed PID Kd Filer
-#define MCCONF_S_PID_KD_FILTER 0.5
+#define MCCONF_S_PID_KD_FILTER 0.2
 
 // Minimum ERPM
-#define MCCONF_S_PID_MIN_RPM 100
+#define MCCONF_S_PID_MIN_RPM 600
 
 // Allow Braking
-#define MCCONF_S_PID_ALLOW_BRAKING 0
+#define MCCONF_S_PID_ALLOW_BRAKING 1
+
+// Ramp eRPMs per second
+#define MCCONF_S_PID_RAMP_ERPMS_S -1
 
 // Position PID Kp
 #define MCCONF_P_PID_KP 0.03
@@ -343,7 +364,7 @@
 #define MCCONF_P_PID_ANG_DIV 1
 
 // Startup boost
-#define MCCONF_CC_STARTUP_BOOST_DUTY 0
+#define MCCONF_CC_STARTUP_BOOST_DUTY 0.01
 
 // Minimum Current
 #define MCCONF_CC_MIN_CURRENT 0.05
@@ -388,7 +409,7 @@
 #define MCCONF_M_DC_F_SW 25000
 
 // Beta Value for Motor Thermistor
-#define MCCONF_M_NTC_MOTOR_BETA 3977
+#define MCCONF_M_NTC_MOTOR_BETA 3380
 
 // Auxiliary Output Mode
 #define MCCONF_M_OUT_AUX_MODE 0
@@ -399,26 +420,42 @@
 // Coefficient for PTC Motor Thermistor
 #define MCCONF_M_PTC_MOTOR_COEFF 0.61
 
+// Hall Sensor Extra Samples
+#define MCCONF_M_HALL_EXTRA_SAMPLES 1
+
 // Motor Poles
-#define MCCONF_SI_MOTOR_POLES 5
+#define MCCONF_SI_MOTOR_POLES 14
 
 // Gear Ratio
-#define MCCONF_SI_GEAR_RATIO 1
+#define MCCONF_SI_GEAR_RATIO 3
 
 // Wheel Diameter
-#define MCCONF_SI_WHEEL_DIAMETER 0.1
+#define MCCONF_SI_WHEEL_DIAMETER 0.083
 
 // Battery Type
 #define MCCONF_SI_BATTERY_TYPE 0
 
 // Battery Cells Series
-#define MCCONF_SI_BATTERY_CELLS 10
+#define MCCONF_SI_BATTERY_CELLS 3
 
 // Battery Capacity
 #define MCCONF_SI_BATTERY_AH 6
 
-#include "mcconf_default.h"
+// BMS Type
+#define MCCONF_BMS_TYPE 1
 
-// MCCONF_412_SIKORSKI_H_
+// Temperature Limit Start
+#define MCCONF_BMS_T_LIMIT_START 45
+
+// Temperature Limit End
+#define MCCONF_BMS_T_LIMIT_END 65
+
+// SOC Limit Start
+#define MCCONF_BMS_SOC_LIMIT_START 0.05
+
+// SOC Limit End
+#define MCCONF_BMS_SOC_LIMIT_END 0
+
+// TARPON_7-26-21_H_
 #endif
 
