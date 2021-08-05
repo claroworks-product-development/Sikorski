@@ -355,7 +355,6 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
                 last_speed = event;
                 display_speed (last_speed);
             }
-
             switch (event)
             {
             case DISP_OFF_TRIGGER:  // rcvd when the motor turns off - start the display cycle by showing the 'waiting' display
