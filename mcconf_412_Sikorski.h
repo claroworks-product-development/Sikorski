@@ -34,7 +34,7 @@
 #define MCCONF_L_RPM_MIN -100000
 
 // Max ERPM
-#define MCCONF_L_RPM_MAX 1500
+#define MCCONF_L_RPM_MAX 100000
 
 // ERPM Limit Start
 #define MCCONF_L_RPM_START 0.8
@@ -67,7 +67,7 @@
 #define MCCONF_L_LIM_TEMP_FET_END 100
 
 // Motor Temp Cutoff Start
-#define MCCONF_L_LIM_TEMP_MOTOR_START 140
+#define MCCONF_L_LIM_TEMP_MOTOR_START 120
 
 // Motor Temp Cutoff End
 #define MCCONF_L_LIM_TEMP_MOTOR_END 155
@@ -192,9 +192,6 @@
 // Motor Inductance (L)
 #define MCCONF_FOC_MOTOR_L 4.661e-05
 
-// Motor Inductance Difference (Ld - Lq)
-#define MCCONF_FOC_MOTOR_LD_LQ_DIFF 0
-
 // Motor Resistance (R)
 #define MCCONF_FOC_MOTOR_R 0.0143
 
@@ -216,26 +213,17 @@
 // Openloop ERPM
 #define MCCONF_FOC_OPENLOOP_RPM 1500
 
-// Openloop ERPM at Min Current
-#define MCCONF_FOC_OPENLOOP_RPM_LOW 0.1
-
-// D Axis Gain Scaling Start
-#define MCCONF_FOC_D_GAIN_SCALE_START 0.9
-
-// D Axis Gain Scaling at Max Mod
-#define MCCONF_FOC_D_GAIN_SCALE_MAX_MOD 0.2
-
 // Openloop Hysteresis
 #define MCCONF_FOC_SL_OPENLOOP_HYST 0.1
 
-// Openloop Lock Time
-#define MCCONF_FOC_SL_OPENLOOP_T_LOCK 0
-
-// Openloop Ramp Time
-#define MCCONF_FOC_SL_OPENLOOP_T_RAMP 0
-
 // Openloop Time
 #define MCCONF_FOC_SL_OPENLOOP_TIME 0.05
+
+// D Current Injection Duty
+#define MCCONF_FOC_SL_D_CURRENT_DUTY 0
+
+// D Current Injection Factor
+#define MCCONF_FOC_SL_D_CURRENT_FACTOR 0
 
 // Hall Table [0]
 #define MCCONF_FOC_HALL_TAB_0 255
@@ -260,9 +248,6 @@
 
 // Hall Table [7]
 #define MCCONF_FOC_HALL_TAB_7 255
-
-// Hall Interpolation ERPM
-#define MCCONF_FOC_HALL_INTERP_ERPM 500
 
 // Sensorless ERPM
 #define MCCONF_FOC_SL_ERPM 2500
@@ -345,9 +330,6 @@
 // Allow Braking
 #define MCCONF_S_PID_ALLOW_BRAKING 1
 
-// Ramp eRPMs per second
-#define MCCONF_S_PID_RAMP_ERPMS_S -1
-
 // Position PID Kp
 #define MCCONF_P_PID_KP 0.03
 
@@ -420,9 +402,6 @@
 // Coefficient for PTC Motor Thermistor
 #define MCCONF_M_PTC_MOTOR_COEFF 0.61
 
-// Hall Sensor Extra Samples
-#define MCCONF_M_HALL_EXTRA_SAMPLES 1
-
 // Motor Poles
 #define MCCONF_SI_MOTOR_POLES 14
 
@@ -441,21 +420,6 @@
 // Battery Capacity
 #define MCCONF_SI_BATTERY_AH 6
 
-// BMS Type
-#define MCCONF_BMS_TYPE 1
-
-// Temperature Limit Start
-#define MCCONF_BMS_T_LIMIT_START 45
-
-// Temperature Limit End
-#define MCCONF_BMS_T_LIMIT_END 65
-
-// SOC Limit Start
-#define MCCONF_BMS_SOC_LIMIT_START 0.05
-
-// SOC Limit End
-#define MCCONF_BMS_SOC_LIMIT_END 0
-
-// TARPON_7-26-21_H_
+// MCCONF_412_SIKORSKI_H_
 #endif
 
