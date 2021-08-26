@@ -33,14 +33,14 @@
 #define SPEED_DEFAULT 3
 
 // ERPM PROGRAMMED SPEED
-#define SPEEDS1 1525
-#define SPEEDS2 2300
-#define SPEEDS3 3100
-#define SPEEDS4 3525
-#define SPEEDS5 3900
-#define SPEEDS6 4150
-#define SPEEDS7 4450
-#define SPEEDS8 4850
+#define SPEEDS1 2135
+#define SPEEDS2 3220
+#define SPEEDS3 4340
+#define SPEEDS4 4935
+#define SPEEDS5 5460
+#define SPEEDS6 5810
+#define SPEEDS7 6230
+#define SPEEDS8 7500
 
 // CURRENT LIMIT PER PROGRAMMED SPEED
 #define LIMITS1 1
@@ -50,7 +50,7 @@
 #define LIMITS5 9.6
 #define LIMITS6 12.8
 #define LIMITS7 17
-#define LIMITS8 22.8
+#define LIMITS8 46
 
 // BATTERY DISPLAY (PER DISPLAYED BAR)
 #define DISP_BATT_VOLT1	34.0
@@ -65,19 +65,20 @@
 #define SAFETY_SPEED_GUARD_HIGH 6   // Amps. Currents above this indicate an obstruction - we will stop shortly if persistent
 #define SAFETY_SPEED_GUARD_LOW  0.5 // Amps. Currents below this indicate running out-of-water
 #define SAFETY_SPEED_BI_LIMIT   0.30 // Amps. Battery current limit while in guard mode.
-#define SAFETY_SPEED_ERPM       900  // running ERPM while in guard mode.
+#define SAFETY_SPEED_ERPM       600  // running ERPM while in guard mode.
 #define SAFETY_SPEED_MAX_ERPM   1500 // maximum ERPM in guard mode, when it tries to catch up as it becomes unblocked
 
-#define RUNNING_SAFE_OK_CT 	50		// count at 20Hz at which we will confirm running in water with no obstructions
+#define RUNNING_SAFE_OK_CT 	10		// count at 20Hz at which we will confirm running in water with no obstructions
 #define RUNNING_SAFE_FAIL_CT  5      // count at 20Hz at which we will fail and turn off the motor completely requiring restart
 #define SAFETY_FILTER_ALPHA 0.2
 
 // DISPLAY SETTINGS
 #define DISP_BRIGHTNESS 6 // 0 to 15 (Max)
-#define DISP_ROTATION 1 // 0 to 3 - for fixing differences in display hardware
+#define DISP_ROTATION1 0 // 0 to 3 - for fixing differences in display hardware
+#define DISP_ROTATION2 2 // 0 to 3 - for fixing differences in display hardware
 #define DISP_POWER_ON_OFFTIME 10000	// after power on - milliseconds until display stops
 #define DISP_OFF_TRIGGER_BEG_MS 3000 // after OFF-TRIGGER, begin display - time for battery to settle
-#define DISP_OFF_TRIG_DURATION_MS 6000 // after OFF-TRIGGER, leave the display on for this time period
+#define DISP_OFF_TRIG_DURATION_MS 300000 // after OFF-TRIGGER, leave the display on for this time period
 #define DISP_ON_TRIGGER_SPEED_MS 3500 // after ON-TRIGGER, time that speed is shown
 
 // BATTERY IMBALANCE
