@@ -485,6 +485,23 @@ bool disp_rot2 (const char *data)
     settings->disp_rot2 = i;
     return true;
 }
+bool disp_swap (const char *data)
+{
+    int i;
+    int num = sscanf (data, "%i", &i);
+    if (num != 1)
+    {
+        commands_printf ("invalid input.\n");
+        return false;
+    }
+    if (i < 0 || i > 1)
+    {
+        commands_printf ("out of range. (0-1)\n");
+        return false;
+    }
+    settings->disp_swap = i;
+    return true;
+}
 bool power_off_ms (const char *data)
 {
     int i;
