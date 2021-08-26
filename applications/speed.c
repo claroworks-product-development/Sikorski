@@ -274,6 +274,10 @@ static THD_FUNCTION(speed_thread, arg) // @suppress("No return")
 
     MOTOR_STATE state = MOTOR_OFF;
 
+    uint32_t migrate_rate = settings->migrate_rate;
+    if(migrate_rate < 100)
+        migrate_rate = 0;
+
     // the message retrieved from the mailbox
     msg_t fetch = MSG_OK;
 
@@ -291,7 +295,6 @@ static THD_FUNCTION(speed_thread, arg) // @suppress("No return")
 
     for (;;)
     {
-
         fetch = chMBFetch (&speed_mbox, (msg_t*) &event, speed_timeout);
         if (fetch == MSG_TIMEOUT)
             event = TIMER_EXPIRY;
@@ -325,7 +328,7 @@ static THD_FUNCTION(speed_thread, arg) // @suppress("No return")
             case CHECK_BATTERY:
                 break;
             case TIMER_EXPIRY:
-                set_timeout(migrate (&user_speed) ? TIME_INFINITE : MS2ST(settings->migrate_rate));
+                set_timeout(migrate (&user_speed) ? TIME_INFINITE : MS2ST(migrate_rate));
                 break;
             default:
                 break;
@@ -337,7 +340,13 @@ static THD_FUNCTION(speed_thread, arg) // @suppress("No return")
             case SPEED_OFF:
                 state = MOTOR_OFF;
                 send_to_display (DISP_OFF_TRIGGER);
-                set_timeout(MS2ST(settings->migrate_rate));
+
+                // if migrate is OFF go immediately to default speed and turn on SafeStart
+                if(migrate_rate == 0)
+                    user_speed = DEFAULT_SPEED;
+                else
+                    set_timeout(MS2ST(migrate_rate));
+
                 adjust_speed (user_speed, MODE_OFF);
                 break;
             case SPEED_UP:
