@@ -521,14 +521,14 @@ bool disp_beg_ms (const char *data)
 }
 bool disp_dur_ms (const char *data)
 {
-    int i;
-    int num = sscanf (data, "%i", &i);
+    uint32_t i;
+    int num = sscanf (data, "%li", &i);
     if (num != 1)
     {
         commands_printf ("invalid input.\n");
         return false;
     }
-    if (i < 0 || i > 500000)
+    if (i > 500000)
     {
         commands_printf ("out of range. (0-500000)\n");
         return false;
