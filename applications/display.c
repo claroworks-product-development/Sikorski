@@ -259,6 +259,7 @@ void display_start(void)
 
 void display_dots(uint16_t pos)
 {
+    GFX_setRotation (settings->disp_rot1);
     LED_clear ();
     LED_drawPixel (pos & 0x07, 7, LED_ON);
     pos++;
@@ -406,6 +407,7 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
                     display_power_sign();
                     break;
                 }
+                GFX_setRotation (settings->disp_rot1);
                 LED_clear ();
                 LED_drawPixel (dot_pos & 0x07, 7, LED_ON);
                 dot_pos++;
