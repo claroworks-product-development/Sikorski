@@ -55,6 +55,21 @@ void display_power_sign(void);
 i2caddr_t LED1 = 0x70;
 i2caddr_t LED2 = 0x71;
 
+i2caddr_t screen(uint8_t screen)
+{
+    switch(screen)
+    {
+    case 0:
+        if (settings->disp_swap == 0)   return LED1;
+        else                            return LED2;
+    case 1:
+        if (settings->disp_swap == 0)   return LED2;
+        else                            return LED1;
+    default:
+        return LED1;
+    }
+    return LED1;
+}
 
 // Start the display thread
 void display_init ()
@@ -119,8 +134,8 @@ void display_battery_graph (bool initial)
         GFX_drawBlk (6, 0, 2, 8);
     }
 
-    LED_blinkRate (LED1, 0);
-    LED_blinkRate (LED2, 0);
+    LED_blinkRate (screen(0), 0);
+    LED_blinkRate (screen(1), 0);
 
     // When there is an imbalance in the battery charge between two batteries,
     // indicate to the user which one is low (defective).
@@ -154,7 +169,7 @@ void display_battery_graph (bool initial)
         DISP_LOG(("Displaying '2'"));
     }
 
-    LED_writeDisplay (LED1);
+    LED_writeDisplay (screen(0));
 }
 
 void display_safety_sign(void)
@@ -166,7 +181,7 @@ void display_safety_sign(void)
     GFX_setTextColor (LED_ON);
     LED_clear ();
 	GFX_drawBitmap(0,0,safety_bitmap, 8, 8, LED_ON);
-    LED_writeDisplay (LED2);
+    LED_writeDisplay (screen(1));
     DISP_LOG(("Write (safety)"));
 }
 
@@ -178,7 +193,7 @@ void display_power_sign(void)
     GFX_setTextColor (LED_ON);
     LED_clear ();
 	GFX_drawBitmap(0,0,power_bitmap, 8, 8, LED_ON);
-    LED_writeDisplay (LED2);
+    LED_writeDisplay (screen(1));
     DISP_LOG(("Write (power)"));
 }
 
@@ -190,7 +205,7 @@ void display_ludicrous(void)
     GFX_setTextColor (LED_ON);
     LED_clear ();
 	GFX_drawBitmap(0,0,power_bitmap, 8, 8, LED_ON);
-    LED_writeDisplay (LED2);
+    LED_writeDisplay (screen(1));
     DISP_LOG(("Write (smile)"));
 }
 
@@ -212,7 +227,7 @@ void display_speed (MESSAGE speed)
     char text[2] =
         { '0' + new_speed, '\0' };
     GFX_print_str (text);
-    LED_writeDisplay (LED2);
+    LED_writeDisplay (screen(1));
     DISP_LOG(("Write '%s'", text));
 }
 
@@ -233,13 +248,13 @@ const char *const disp_states[] =
 void display_idle(void)
 {
     LED_clear ();   // clear display
-    LED_writeDisplay (LED1);
+    LED_writeDisplay (screen(0));
 }
 
 void display_start(void)
 {
-    LED_begin(LED1);
-    LED_begin(LED2);
+    LED_begin(screen(0));
+    LED_begin(screen(1));
 }
 
 void display_dots(uint16_t pos)
@@ -247,7 +262,7 @@ void display_dots(uint16_t pos)
     LED_clear ();
     LED_drawPixel (pos & 0x07, 7, LED_ON);
     pos++;
-    LED_writeDisplay (LED1);
+    LED_writeDisplay (screen(0));
 }
 
 static THD_FUNCTION(display_thread, arg) // @suppress("No return")
@@ -394,7 +409,7 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
                 LED_clear ();
                 LED_drawPixel (dot_pos & 0x07, 7, LED_ON);
                 dot_pos++;
-                LED_writeDisplay (LED1);
+                LED_writeDisplay (screen(0));
                 break;
             default:
                 break;
