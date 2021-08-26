@@ -80,6 +80,7 @@
 #define DISP_OFF_TRIGGER_BEG_MS 3000 // after OFF-TRIGGER, begin display - time for battery to settle
 #define DISP_OFF_TRIG_DURATION_MS 300000 // after OFF-TRIGGER, leave the display on for this time period
 #define DISP_ON_TRIGGER_SPEED_MS 3500 // after ON-TRIGGER, time that speed is shown
+#define DISP_SWAP 0 // 0 or 1
 
 // BATTERY IMBALANCE
 #define BATTERY_MAX_IMBALANCE 2.0 // Volts that batteries are allowed to be different, to disallow overdischarge
