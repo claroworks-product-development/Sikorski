@@ -290,9 +290,9 @@ bool migrate_rate (const char *data)
         commands_printf ("invalid input.\n");
         return false;
     }
-    if (i < 500 || i > 1000000)
+    if (i < 0 ||i > 1000000)
     {
-        commands_printf ("out of range. (500-1000000)\n");
+        commands_printf ("out of range. (0-1000000)\n");
         return false;
     }
     settings->migrate_rate = i;
@@ -528,9 +528,9 @@ bool disp_dur_ms (const char *data)
         commands_printf ("invalid input.\n");
         return false;
     }
-    if (i < 0 || i > 20000)
+    if (i < 0 || i > 500000)
     {
-        commands_printf ("out of range. (0-20000)\n");
+        commands_printf ("out of range. (0-500000)\n");
         return false;
     }
     settings->disp_dur_ms = i;
