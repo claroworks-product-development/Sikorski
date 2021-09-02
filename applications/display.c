@@ -71,6 +71,24 @@ i2caddr_t screen(uint8_t screen)
     return LED1;
 }
 
+void rotate_screen(uint8_t screen)
+{
+    switch(screen)
+    {
+    case 0:
+        if (settings->disp_swap == 0)   GFX_setRotation (settings->disp_rot1);
+        else                            GFX_setRotation (settings->disp_rot2);
+        break;
+    case 1:
+        if (settings->disp_swap == 0)   GFX_setRotation (settings->disp_rot2);
+        else                            GFX_setRotation (settings->disp_rot1);
+        break;
+    default:
+        break;
+    }
+}
+
+
 // Start the display thread
 void display_init ()
 {
@@ -114,7 +132,7 @@ void display_battery_graph (bool initial)
     }
 
     // Display a bar graph, up to 4 bars.
-    GFX_setRotation (settings->disp_rot1);
+    rotate_screen(0);
     LED_clear ();   // clear display
 
     // hard-coded checks was more straight forward and readable than a loop.
@@ -176,7 +194,7 @@ void display_safety_sign(void)
 {
 	const uint8_t safety_bitmap[] = {0x3C,0x42,0xA1,0x91,0x89,0x85,0x42,0x3C};
 
-	GFX_setRotation (settings->disp_rot2);
+	rotate_screen(1);
     GFX_setTextSize (1);
     GFX_setTextColor (LED_ON);
     LED_clear ();
@@ -188,7 +206,7 @@ void display_safety_sign(void)
 void display_power_sign(void)
 {
 	const uint8_t power_bitmap[] = {0x18,0x5A,0x99,0x99,0x99,0x81,0x42,0x3C};
-	GFX_setRotation (settings->disp_rot2);
+    rotate_screen(1);
     GFX_setTextSize (1);
     GFX_setTextColor (LED_ON);
     LED_clear ();
@@ -200,7 +218,7 @@ void display_power_sign(void)
 void display_ludicrous(void)
 {
 	const uint8_t power_bitmap[] = {0x3C,0x42,0xA5,0x81,0xA5,0x99,0x42,0x3C};
-	GFX_setRotation (settings->disp_rot2);
+    rotate_screen(1);
     GFX_setTextSize (1);
     GFX_setTextColor (LED_ON);
     LED_clear ();
@@ -219,7 +237,7 @@ void display_speed (MESSAGE speed)
     }
     if(new_speed > 9 || new_speed < 1)
         return;
-    GFX_setRotation (settings->disp_rot2);
+    rotate_screen(1);
     GFX_setTextSize (1);
     GFX_setTextColor (LED_ON);
     LED_clear ();
@@ -259,7 +277,7 @@ void display_start(void)
 
 void display_dots(uint16_t pos)
 {
-    GFX_setRotation (settings->disp_rot1);
+    rotate_screen(0);
     LED_clear ();
     LED_drawPixel (pos & 0x07, 7, LED_ON);
     pos++;
@@ -340,6 +358,13 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
 
             switch (event)
             {
+            case DISP_OFF_TRIGGER:  // rcvd when the motor turns off - start the display cycle by showing the 'waiting' display
+                display_idle();
+                display_power_sign();
+                timeout = MS2ST(settings->disp_beg_ms / 24);    // 8 dots in waiting progression
+                state = DISP_WAIT;
+                dot_pos = 0;
+                break;
             case TIMER_EXPIRY:
                 display_speed (last_speed);
                 timeout = MS2ST(settings->disp_on_ms);
@@ -407,7 +432,7 @@ static THD_FUNCTION(display_thread, arg) // @suppress("No return")
                     display_power_sign();
                     break;
                 }
-                GFX_setRotation (settings->disp_rot1);
+                rotate_screen(0);
                 LED_clear ();
                 LED_drawPixel (dot_pos & 0x07, 7, LED_ON);
                 dot_pos++;
