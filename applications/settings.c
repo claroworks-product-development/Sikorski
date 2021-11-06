@@ -283,8 +283,8 @@ bool ramping (const char *data)
 }
 bool migrate_rate (const char *data)
 {
-    int i;
-    int num = sscanf (data, "%i", &i);
+    uint32_t i;
+    int num = sscanf (data, "%li", &i);
     if (num != 1)
     {
         commands_printf ("invalid input.\n");

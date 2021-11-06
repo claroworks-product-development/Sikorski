@@ -41,7 +41,7 @@ X (uint8_t,  use_safety,    $U, %i,    USE_SAFETY_SPEED) \
 X (uint16_t, trig_on_time,  $T, %i,    TRIG_ON_TOUT_MS) \
 X (uint16_t, trig_off_time, $t, %i,    TRIG_OFF_TOUT_MS) \
 X (uint16_t, ramping,       $r, %i,    SPEED_RAMPING_RATE) \
-X (uint32_t, migrate_rate,  $m, %i,    MIGRATE_SPEED_MILLISECONDS) \
+X (uint32_t, migrate_rate,  $m, %li,   MIGRATE_SPEED_MILLISECONDS) \
 X (float, 	 guard_high,    $G, %0.2f, SAFETY_SPEED_GUARD_HIGH) \
 X (float, 	 guard_low,     $g, %0.2f, SAFETY_SPEED_GUARD_LOW) \
 X (float,    guard_limit,   $h, %0.2f, SAFETY_SPEED_BI_LIMIT) \
