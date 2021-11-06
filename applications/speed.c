@@ -55,9 +55,9 @@ static sikorski_data *settings;
 
 typedef enum _motor_state
 {
-    MOTOR_OFF = 0,		// motor not running
-    MOTOR_ON,			// motor running
-    MOTOR_START,		// test for obstruction
+    MOTOR_OFF = 0,      // motor not running
+    MOTOR_ON,           // motor running
+    MOTOR_START,        // test for obstruction
     MOTOR_EOL
 } MOTOR_STATE;
 
@@ -114,7 +114,7 @@ static void decrease (uint8_t *speed)
         (*speed)--;
 }
 
-static bool migrate (uint8_t *speed)		// Programmed speed migrates toward the default speed. Return true if it got there.
+static bool migrate (uint8_t *speed)        // Programmed speed migrates toward the default speed. Return true if it got there.
 {
     if (*speed > DEFAULT_SPEED)
         (*speed)--;
@@ -255,7 +255,7 @@ static float adjust_speed (uint8_t user_setting, RUN_MODES mode)
     SPED_LOG(("MODE=%.5s present=%4.2f, programmed=%4.2f",
             mode_str[(int) mode], (double) present_speed, (double) get_limited_speed(user_setting)));
 
-	return    present_speed;
+    return    present_speed;
 }
 
 // timeout value (used as a timeout service)
@@ -283,7 +283,7 @@ static THD_FUNCTION(speed_thread, arg) // @suppress("No return")
 
     int32_t event = SPEED_OFF;
 
-    float present_speed = 0.0;		// speed that motor is set to.
+    float present_speed = 0.0;      // speed that motor is set to.
 
     settings = get_sikorski_settings_ptr ();
     while(settings->magic != VALID_VALUE)
@@ -378,12 +378,12 @@ static THD_FUNCTION(speed_thread, arg) // @suppress("No return")
         case MOTOR_START: // wait here until it is indicated that we are running in water with no obstructions
             switch (event)
             {
-            case SPEED_OFF:		// user gave up and turned motor off.
+            case SPEED_OFF:     // user gave up and turned motor off.
                 state = MOTOR_OFF;
                 send_to_display (DISP_OFF_TRIGGER);
                 set_timeout(MS2ST(settings->migrate_rate));
                 adjust_speed (user_speed, MODE_OFF);
-                send_to_ready (READY_OFF);		// don't need to check for start any more
+                send_to_ready (READY_OFF);      // don't need to check for start any more
                 break;
 
             case SPEED_READY:   // READY thread approved start conditions
@@ -467,13 +467,13 @@ static THD_FUNCTION(motor_ready_thread, arg) // @suppress("No return")
         {
         case READY_ON:
             adjust_speed (0, MODE_START);
-            ready_timeout = MS2ST(RAMPING_TIME_MS);	// 50 mS = 20Hz
+            ready_timeout = MS2ST(RAMPING_TIME_MS); // 50 mS = 20Hz
             running_safe_ct = 0;
             lpf_init (&lpfy, settings->f_alpha, 1.0);
             break;
 
         case READY_OFF:
-            ready_timeout = TIME_INFINITE;	// turn task 'OFF', until turned on again.
+            ready_timeout = TIME_INFINITE;  // turn task 'OFF', until turned on again.
             running_safe_ct = 0;
             break;
 
