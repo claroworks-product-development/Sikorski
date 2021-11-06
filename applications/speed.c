@@ -24,7 +24,7 @@
 // speed.c
 //
 // This file defines a thread that takes speed events and performs timing and
-//		logic to determine motor speed actions
+//      logic to determine motor speed actions
 //
 #include <stddef.h>
 #include <stdbool.h>
@@ -182,8 +182,8 @@ static float limit_speed_by_battery(float speed)
     float batt_cutoff = conf->l_battery_cut_end / 2.0;
     float batt_low = conf->l_battery_cut_start / 2.0;
 
-//    SPED_LOG(("cutoff=%2.2f batt=%2.2f low=%2.2f",
-//                    (double) batt_cutoff, (double) lowest_battery, (double) batt_low));
+    SPED_LOG(("cutoff=%2.2f batt=%2.2f low=%2.2f",
+                    (double) batt_cutoff, (double) lowest_battery, (double) batt_low));
     if(lowest_battery > batt_low)
         return speed;   // no need to limit speed
 
@@ -204,8 +204,8 @@ static float limit_speed_by_battery(float speed)
 
     // apply formula to look up the appropriate speed for this voltage
     float limited_speed = (lowest_battery * m) + b;
-//    SPED_LOG(("speed=%4.2f, limited=%4.2f by batt=%2.2f (2x)",
-//                (double) speed, (double) limited_speed, (double) (lowest_battery * 2.0)));
+    SPED_LOG(("speed=%4.2f, limited=%4.2f by batt=%2.2f (2x)",
+                (double) speed, (double) limited_speed, (double) (lowest_battery * 2.0)));
 
     return limited_speed;
 }
@@ -252,8 +252,8 @@ static float adjust_speed (uint8_t user_setting, RUN_MODES mode)
     #if(SPEED_LOG == 1)
         const char *const mode_str[] = { "OFF", "RUN", "START" };
     #endif
-//    SPED_LOG(("MODE=%.5s present=%4.2f, programmed=%4.2f",
-//            mode_str[(int) mode], (double) present_speed, (double) get_limited_speed(user_setting)));
+    SPED_LOG(("MODE=%.5s present=%4.2f, programmed=%4.2f",
+            mode_str[(int) mode], (double) present_speed, (double) get_limited_speed(user_setting)));
 
 	return    present_speed;
 }
@@ -263,7 +263,7 @@ static systime_t speed_timeout = TIME_INFINITE; // timeout in ticks. Use MS2ST(m
 static void set_timeout(systime_t new_period)
 {
     speed_timeout = new_period;
-//    SPED_LOG(("TIMEOUT = %f", ((double)ST2MS(new_period))/(double)1000.0 ));
+    SPED_LOG(("TIMEOUT = %f", ((double)ST2MS(new_period))/(double)1000.0 ));
 }
 
 static THD_FUNCTION(speed_thread, arg) // @suppress("No return")
