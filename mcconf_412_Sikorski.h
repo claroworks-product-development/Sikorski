@@ -391,7 +391,7 @@
 #define MCCONF_M_DC_F_SW 25000
 
 // Beta Value for Motor Thermistor
-#define MCCONF_M_NTC_MOTOR_BETA 3380
+#define MCCONF_M_NTC_MOTOR_BETA 3950
 
 // Auxiliary Output Mode
 #define MCCONF_M_OUT_AUX_MODE 0
