@@ -258,6 +258,18 @@ static float adjust_speed (uint8_t user_setting, RUN_MODES mode)
     return    present_speed;
 }
 
+// migrate rate == 0 means go directly to default speed.
+uint32_t speed_migrate_rate(void)
+{
+	if (settings->migrate_rate == 0)
+		return 0;
+	// at .1 seconds, it always returns to default speed by the time you get it started again anyway
+	// so limit the rate at which the timer goes off
+    if (settings->migrate_rate < 100)
+        return 100;
+    return settings->migrate_rate;
+}
+
 // timeout value (used as a timeout service)
 static systime_t speed_timeout = TIME_INFINITE; // timeout in ticks. Use MS2ST(milliseconds) to set the value in milliseconds
 static void set_timeout(systime_t new_period)
@@ -273,10 +285,6 @@ static THD_FUNCTION(speed_thread, arg) // @suppress("No return")
     chRegSetThreadName ("SPEED");
 
     MOTOR_STATE state = MOTOR_OFF;
-
-    uint32_t migrate_rate = settings->migrate_rate;
-    if(migrate_rate < 100)
-        migrate_rate = 0;
 
     // the message retrieved from the mailbox
     msg_t fetch = MSG_OK;
@@ -328,7 +336,7 @@ static THD_FUNCTION(speed_thread, arg) // @suppress("No return")
             case CHECK_BATTERY:
                 break;
             case TIMER_EXPIRY:
-                set_timeout(migrate (&user_speed) ? TIME_INFINITE : MS2ST(migrate_rate));
+                set_timeout(migrate (&user_speed) ? TIME_INFINITE : MS2ST(settings->migrate_rate));
                 break;
             default:
                 break;
@@ -340,13 +348,11 @@ static THD_FUNCTION(speed_thread, arg) // @suppress("No return")
             case SPEED_OFF:
                 state = MOTOR_OFF;
                 send_to_display (DISP_OFF_TRIGGER);
-
                 // if migrate is OFF go immediately to default speed and turn on SafeStart
-                if(migrate_rate == 0)
+                if(speed_migrate_rate() == 0)
                     user_speed = DEFAULT_SPEED;
                 else
-                    set_timeout(MS2ST(migrate_rate));
-
+                    set_timeout(MS2ST(speed_migrate_rate()));
                 adjust_speed (user_speed, MODE_OFF);
                 break;
             case SPEED_UP:
@@ -381,7 +387,8 @@ static THD_FUNCTION(speed_thread, arg) // @suppress("No return")
             case SPEED_OFF:     // user gave up and turned motor off.
                 state = MOTOR_OFF;
                 send_to_display (DISP_OFF_TRIGGER);
-                set_timeout(MS2ST(settings->migrate_rate));
+                if(speed_migrate_rate())
+                    set_timeout(MS2ST(speed_migrate_rate()));
                 adjust_speed (user_speed, MODE_OFF);
                 send_to_ready (READY_OFF);      // don't need to check for start any more
                 break;
