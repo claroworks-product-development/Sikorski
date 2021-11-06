@@ -290,7 +290,7 @@ bool migrate_rate (const char *data)
         commands_printf ("invalid input.\n");
         return false;
     }
-    if (i < 0 ||i > 1000000)
+    if (i > 1000000)
     {
         commands_printf ("out of range. (0-1000000)\n");
         return false;
