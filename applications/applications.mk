@@ -15,5 +15,8 @@ APPSRC =	applications/app.c \
 			applications/glcdfont.c \
 			applications/Adafruit_GFX.c \
 			applications/Adafruit_LEDBackpack.c \
+			\
+			applications/app_pas.c \
+			applications/app_custom.c
 
 APPINC = applications
