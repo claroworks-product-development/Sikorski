@@ -34,6 +34,7 @@
 #include "trigger.h" // thread handling the trigger logic
 #include "speed.h" 	 // thread handling the motor speed logic
 #include "batteries.h"
+#include "defaults.h"
 
 const char* message_text (MESSAGE msg_type)
 {
@@ -98,7 +99,10 @@ float get_lowest_battery_voltage(void)
 }
 
 // return the voltage difference between the two batteries
-float get_battery_imbalance(void)
+// returns 0 if no imbalance
+// returns 1 if battery1 is much lower that battery 2
+// returns -1 if battery2 is much lower that battery 1
+int get_battery_imbalance(void)
 {
     float batt_imbalance;
 
@@ -108,8 +112,18 @@ float get_battery_imbalance(void)
     }
     chMtxUnlock(&batt_mutex);
 
-    // return the smallest value
-    return batt_imbalance;
+    // determine adjusted imbalance allowed by the motor speed.
+    // allow greater imbalance on higher speeds
+    float motor_amps = mc_interface_get_tot_current_filtered ();
+
+    // allow up to double imbalance based on the motor current, up to the limit "LIMITS8"
+    float allowed = settings->batt_imbalance + ((motor_amps / LIMITS8) * settings->batt_imbalance);
+
+    if (batt_imbalance > allowed)
+        return 1;
+    if (batt_imbalance < ( - allowed))
+        return -1;
+    return 0;
 }
 
 void check_batteries (void)
@@ -136,7 +150,7 @@ void check_batteries (void)
 
     // count rolled over. Now average the results
     chMtxLock(&batt_mutex); // protect multiple access
-    { // LOCKED CONTEXT
+    { 	// LOCKED CONTEXT
         if(settings->b2Rratio == 0)
         {
             batteries[1] = batteries[0] = batt_total/2.0;

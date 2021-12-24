@@ -25,7 +25,7 @@
 #define MCCONF_L_IN_CURRENT_MAX 1
 
 // Battery Current Max Regen
-#define MCCONF_L_IN_CURRENT_MIN -100
+#define MCCONF_L_IN_CURRENT_MIN -1
 
 // Absolute Maximum Current
 #define MCCONF_L_MAX_ABS_CURRENT 150
@@ -145,10 +145,10 @@
 #define MCCONF_HALL_ERPM 2000
 
 // Current KP
-#define MCCONF_FOC_CURRENT_KP 0.0466
+#define MCCONF_FOC_CURRENT_KP 0.0502
 
 // Current KI
-#define MCCONF_FOC_CURRENT_KI 14.34
+#define MCCONF_FOC_CURRENT_KI 15.89
 
 // Switching Frequency
 #define MCCONF_FOC_F_SW 25000
@@ -190,16 +190,16 @@
 #define MCCONF_FOC_PLL_KI 30000
 
 // Motor Inductance (L)
-#define MCCONF_FOC_MOTOR_L 4.661e-05
+#define MCCONF_FOC_MOTOR_L 5.027e-05
 
 // Motor Resistance (R)
-#define MCCONF_FOC_MOTOR_R 0.0143
+#define MCCONF_FOC_MOTOR_R 0.0159
 
 // Motor Flux Linkage (?)
-#define MCCONF_FOC_MOTOR_FLUX_LINKAGE 0.01425
+#define MCCONF_FOC_MOTOR_FLUX_LINKAGE 0.014612
 
 // Observer Gain (x1M)
-#define MCCONF_FOC_OBSERVER_GAIN 4.92e+06
+#define MCCONF_FOC_OBSERVER_GAIN 4.68e+06
 
 // Observer Gain At Minimum Duty
 #define MCCONF_FOC_OBSERVER_GAIN_SLOW 0.05
@@ -420,6 +420,6 @@
 // Battery Capacity
 #define MCCONF_SI_BATTERY_AH 6
 
-// MCCONF_412_SIKORSKI_H_
+#include "mcconf_default.h"
 #endif
 
