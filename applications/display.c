@@ -170,16 +170,16 @@ void display_battery_graph (bool initial)
      Y        1                Y         2
     */
 
-    float imbalance = get_battery_imbalance();
+    int imbalance = get_battery_imbalance();
 
-    if (imbalance > settings->batt_imbalance) // display a small '1'
+    if (imbalance > 0) // display a small '1'
     {
         GFX_drawBlk  (1, 0, 1, 4);
         LED_drawPixel(0, 1, LED_ON);
         DISP_LOG(("Displaying '1'"));
     }
 
-    if (imbalance < ( - settings->batt_imbalance)) // display a small '2'
+    if (imbalance < 0) // display a small '2'
     {
         GFX_drawBlk  (0, 0, 2, 4);
         LED_drawPixel(0, 1, LED_OFF);

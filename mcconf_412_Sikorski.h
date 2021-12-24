@@ -25,7 +25,7 @@
 #define MCCONF_L_IN_CURRENT_MAX 1.34
 
 // Battery Current Max Regen
-#define MCCONF_L_IN_CURRENT_MIN -20
+#define MCCONF_L_IN_CURRENT_MIN -100
 
 // Absolute Maximum Current
 #define MCCONF_L_MAX_ABS_CURRENT 230
@@ -509,6 +509,6 @@
 // Forward CAN to Local
 #define MCCONF_BMS_FWD_CAN_MODE 0
 
-// MCCONF_412_SIKORSKI_H_
+#include "mcconf_default.h"
 #endif
 

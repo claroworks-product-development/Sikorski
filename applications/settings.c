@@ -636,9 +636,9 @@ bool set_speeds (int index, const char *data)
         commands_printf ("invalid input.\n");
         return false;
     }
-    if (i < 1000 || i > 10000)
+    if (i < 1000 || i > 5000)
     {
-        commands_printf ("out of range. (1000-10000)\n");
+        commands_printf ("out of range. (1000-5000)\n");
         return false;
     }
     settings->speeds[index] = i;
