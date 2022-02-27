@@ -59,7 +59,7 @@
 
 #define SPEED_RAMPING_RATE 1500 // RPMS per second - approximately 1/4 second per speed increase
 
-#define MIGRATE_SPEED_MILLISECONDS 5000 // time period to change speeds during off-trigger toward SPEED_DEFAULT
+#define MIGRATE_SPEED_MILLISECONDS 100 // time period to change speeds during off-trigger toward SPEED_DEFAULT
 
 // SAFETY SPEED SETTINGS
 #define SAFETY_SPEED_GUARD_HIGH 6   // Amps. Currents above this indicate an obstruction - we will stop shortly if persistent
