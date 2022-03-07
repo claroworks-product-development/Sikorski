@@ -10,7 +10,7 @@
 #define MCCONF_COMM_MODE 0
 
 // Motor Type
-#define MCCONF_DEFAULT_MOTOR_TYPE 2
+#define MCCONF_DEFAULT_MOTOR_TYPE   MOTOR_TYPE_FOC
 
 // Sensor Mode
 #define MCCONF_SENSOR_MODE 0
@@ -28,7 +28,7 @@
 #define MCCONF_L_IN_CURRENT_MIN -1
 
 // Absolute Maximum Current
-#define MCCONF_L_MAX_ABS_CURRENT 150
+#define MCCONF_L_MAX_ABS_CURRENT 150.0
 
 // Max ERPM Reverse
 #define MCCONF_L_RPM_MIN -100000
@@ -253,7 +253,7 @@
 #define MCCONF_FOC_SL_ERPM 2500
 
 // Sample in V0 and V7
-#define MCCONF_FOC_SAMPLE_V0_V7 0
+#define MCCONF_FOC_SAMPLE_V0_V7 false
 
 // High Current Sampling Mode
 #define MCCONF_FOC_SAMPLE_HIGH_CURRENT 0
