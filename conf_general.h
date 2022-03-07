@@ -250,7 +250,7 @@
 //#define APPCONF_CAN_BAUD_RATE		CAN_BAUD_75K
 
 #include "hw.h"
-#include "mcconf_412_Sikorski.h"
+#include "mcconf_Sikorski.h"
 #include "appconf_sikorski.h"
 
 /*
