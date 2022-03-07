@@ -188,7 +188,7 @@
 //#include "app_erockit_conf.h"
 
 #include "hw.h"
-#include "mcconf_412_Sikorski.h"
+#include "mcconf_Sikorski.h"
 #include "appconf_sikorski.h"
 
 /*
