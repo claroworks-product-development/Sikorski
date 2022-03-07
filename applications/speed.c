@@ -95,6 +95,7 @@ void speed_init (void)
 }
 
 #define DEFAULT_SPEED ((settings->speed_default) -1)
+#define LUDICROUS_CURRENT 25
 
 void send_to_speed (MESSAGE event)
 {
@@ -170,12 +171,15 @@ typedef enum _run_modes
 static float limit_speed_by_battery(float speed)
 {
     float lowest_battery = get_lowest_battery_voltage();
-
+    uint8_t unlimited = 0; // normally "limited" by this function, until LUDICROUS_CURRENT is exceeded
     mc_configuration *conf = (mc_configuration*) mc_interface_get_configuration ();
 
-    // if speed limit is not enabled, just return original speed
-    if(settings->b2Rratio == 0.0)
+    float motor_amps = mc_interface_get_tot_current_filtered();
+
+    // speed limit is not enforced once you enter ludicrous mode
+    if((motor_amps >= LUDICROUS_CURRENT) || unlimited)
     {
+        unlimited = 1;  // lock into unlimited mode
         return speed;
     }
 
