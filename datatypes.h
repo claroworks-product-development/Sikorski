@@ -23,6 +23,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "ch.h"
+#include "applications/settings.h"
 
 // Data types
 typedef enum {
@@ -902,6 +903,8 @@ typedef struct {
 
 	// Nunchuk application settings
 	chuk_config app_chuk_conf;
+
+	sikorski_data app_divex_conf;
 
 	// NRF application settings
 	nrf_config app_nrf_conf;

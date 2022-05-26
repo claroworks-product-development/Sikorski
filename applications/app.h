@@ -84,8 +84,6 @@ float app_pas_get_current_target_rel(void);
 void app_pas_set_current_sub_scaling(float current_sub_scaling);
 
 // Custom apps
-void app_custom_start(void);
-void app_custom_stop(void);
-void app_custom_configure(app_configuration *conf);
+void app_sikorski_init(void);
 
 #endif /* APP_H_ */

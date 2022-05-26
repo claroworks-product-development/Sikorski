@@ -507,7 +507,6 @@ void commands_process_packet(unsigned char *data, unsigned int len,
 		mc_configuration *mcconf = mempools_alloc_mcconf();
 		*mcconf = *mc_interface_get_configuration();
 
-#ifdef _STORE_CONFIGS_
 		if (confgenerator_deserialize_mcconf(data, mcconf)) {
 			utils_truncate_number(&mcconf->l_current_max_scale , 0.0, 1.0);
 			utils_truncate_number(&mcconf->l_current_min_scale , 0.0, 1.0);
@@ -539,7 +538,9 @@ void commands_process_packet(unsigned char *data, unsigned int len,
 		} else {
 			commands_printf("Warning: Could not set mcconf due to wrong signature");
 		}
-	mempools_free_mcconf(mcconf);
+
+		mempools_free_mcconf(mcconf);
+#endif
 	} break;
 
 	case COMM_GET_MCCONF:
@@ -549,7 +550,7 @@ void commands_process_packet(unsigned char *data, unsigned int len,
 		if (packet_id == COMM_GET_MCCONF) {
 			*mcconf = *mc_interface_get_configuration();
 		} else {
-			confgenerator_set_defaults_mcconf(&mcconf);
+			confgenerator_set_defaults_mcconf(mcconf, true);
 			volatile const mc_configuration *mcconf_now = mc_interface_get_configuration();
 
 			// Keep the old offsets
@@ -594,9 +595,11 @@ void commands_process_packet(unsigned char *data, unsigned int len,
 		} else {
 			commands_printf("Warning: Could not set appconf due to wrong signature");
 		}
-#else
+#else  // not _STORE_CONFIGS_
 	    commands_printf("appconf disabled");
-#endif
+#endif  // _STORE_CONFIGS_
+		mempools_free_appconf(appconf);
+#endif  // HW_APPCONF_READ_ONLY
 	} break;
 
 	case COMM_GET_APPCONF:

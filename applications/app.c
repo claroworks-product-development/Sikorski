@@ -141,6 +141,8 @@ void app_set_configuration(app_configuration *conf) {
 		hw_stop_i2c();
 		app_custom_start();
 #endif
+		hw_stop_i2c();
+		app_sikorski_init(); // Claroworks application
 		break;
 
 	default:
@@ -153,6 +155,9 @@ void app_set_configuration(app_configuration *conf) {
 	app_uartcomm_configure(appconf.app_uart_baudrate, true, UART_PORT_COMM_HEADER);
 	app_uartcomm_configure(0, appconf.permanent_uart_enabled, UART_PORT_BUILTIN);
 	app_nunchuk_configure(&appconf.app_chuk_conf);
+
+	app_sikorski_configure(&appconf.app_divex_conf);
+
 
 #ifdef APP_CUSTOM_TO_USE
 	app_custom_configure(&appconf);
