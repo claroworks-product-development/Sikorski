@@ -36,7 +36,9 @@
 #include "crc.h"
 #include "terminal.h"
 
+// SIKORSKI
 #include <applications/settings.h>
+// SIKORSKI
 #include <string.h>
 #include <math.h>
 
@@ -308,7 +310,11 @@ void conf_general_read_app_configuration(app_configuration *conf) {
 	// Set the default configuration
 	if (!is_ok) {
 		confgenerator_set_defaults_appconf(conf);
+
+		// SIKORSKI
 		sikorski_set_defaults(&conf->app_divex_conf);
+		// SIKORSKI
+
 	}
 }
 

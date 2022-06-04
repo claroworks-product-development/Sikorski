@@ -84,6 +84,11 @@ float app_pas_get_current_target_rel(void);
 void app_pas_set_current_sub_scaling(float current_sub_scaling);
 
 // Custom apps
+// SIKORSKI
 void app_sikorski_init(void);
+// void app_custom_start(void);
+// void app_custom_stop(void);
+// void app_custom_configure(app_configuration *conf);
+// SIKORSKI
 
 #endif /* APP_H_ */

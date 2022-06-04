@@ -74,8 +74,8 @@
 //#define HW60_IS_MK4
 #define HW60_IS_MK5
 
-#define HW_SOURCE "hw_60.c"
-#define HW_HEADER "hw_60.h"
+//#define HW_SOURCE "hw_60.c"
+//#define HW_HEADER "hw_60.h"
 
 //#define HW_SOURCE "hw_r2.c"
 //#define HW_HEADER "hw_r2.h"
@@ -250,9 +250,11 @@
 //#define APPCONF_CAN_BAUD_RATE		CAN_BAUD_75K
 
 #include "hw.h"
+
+// SIKORSKI
 #include "mcconf_412_Sikorski.h"
 #include "appconf_sikorski.h"
-
+// SIKORSKI
 /*
  * Enable blackmagic probe output on SWD port
  */

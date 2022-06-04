@@ -39,7 +39,9 @@
 #include <stdio.h>
 #include <math.h>
 
+// SIKORSKI
 #include "applications/settings.h"
+// SIKORSKI
 
 // Settings
 #define FAULT_VEC_LEN						25
@@ -64,10 +66,12 @@ void terminal_process_string(char *str) {
 	int argc = 0;
 	char *argv[kMaxArgs];
 
+	// SIKORSKI
 	if (str[0] == '$') {
 		settings_command(str);
 		return;
 	}
+	// SIKORSKI
 
 	char *p2 = strtok(str, " ");
 	while (p2 && argc < kMaxArgs) {

@@ -853,7 +853,9 @@ typedef enum {
 	CAN_MODE_COMM_BRIDGE
 } CAN_MODE;
 
+// SIKORSKI
 #include "applications/settings.h"
+// SIKORSKI
 
 typedef enum {
 	UAVCAN_RAW_MODE_CURRENT = 0,
@@ -905,8 +907,9 @@ typedef struct {
 	// Nunchuk application settings
 	chuk_config app_chuk_conf;
 
-	// Nunchuk application settings
+	// SIKORSKI
 	sikorski_data app_divex_conf;
+	// SIKORSKI
 
 	// NRF application settings
 	nrf_config app_nrf_conf;
