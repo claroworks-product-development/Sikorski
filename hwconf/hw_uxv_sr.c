@@ -262,15 +262,13 @@ THD_FUNCTION(dac_thread, arg) {
 	(void)arg;
 
 	chRegSetThreadName("DAC");
-
+	chThdSleepMilliseconds(3000);
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE);
 	DAC->CR |= DAC_CR_EN2;
+	//DAC->CR |= DAC_CR_BOFF2;
+	
 
-
-
-
-	const float current_scaling_factor = MAX_CURRENT_SUM / 4096;
-
+	const float current_scaling_factor = MAX_CURRENT_SUM / 4095.0;
 	float current_sum = 0;
 
 	for(;;) {
@@ -283,8 +281,8 @@ THD_FUNCTION(dac_thread, arg) {
 			}
 		}
 		int scaled_current = (int)(round(current_sum/current_scaling_factor));
+		//commands_printf("scaled current: %u, raw value: %f", scaled_current,ADC_Value[ADC_IND_CURR_AUX]*FAC_CURRENT_AUX);
 		DAC->DHR12R2 = scaled_current;
-
 		chThdSleepMilliseconds(100);
 	}
 }

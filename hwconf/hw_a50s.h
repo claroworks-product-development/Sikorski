@@ -228,10 +228,10 @@
 #define MCCONF_L_MAX_VOLTAGE		55.0	// Maximum input voltage
 #endif
 #ifndef MCCONF_DEFAULT_MOTOR_TYPE
-#define MCCONF_DEFAULT_MOTOR_TYPE		MOTOR_TYPE_FOC
+#define MCCONF_DEFAULT_MOTOR_TYPE	MOTOR_TYPE_FOC
 #endif
 #ifndef MCCONF_FOC_F_ZV
-#define MCCONF_FOC_F_ZV					35000.0
+#define MCCONF_FOC_F_ZV					25000.0 // Switching frequency reduced to allow rise time of low side shunts
 #endif
 #ifndef MCCONF_L_MAX_ABS_CURRENT
 #define MCCONF_L_MAX_ABS_CURRENT	80.0	// The maximum absolute current above which a fault is generated

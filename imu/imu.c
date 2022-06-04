@@ -98,10 +98,8 @@ void imu_init(imu_config *set) {
 				HW_I2C_SCL_PORT, HW_I2C_SCL_PIN);
 	} else if (set->type == IMU_TYPE_EXTERNAL_ICM20948) {
 		imu_init_icm20948(HW_I2C_SDA_PORT, HW_I2C_SDA_PIN,
-						  HW_I2C_SCL_PORT, HW_I2C_SCL_PIN, 0);
-	}
-	else if (set->type == IMU_TYPE_EXTERNAL_BMI160)
-	{
+				HW_I2C_SCL_PORT, HW_I2C_SCL_PIN, 0);
+	} else if (set->type == IMU_TYPE_EXTERNAL_BMI160) {
 		imu_init_bmi160_i2c(HW_I2C_SDA_PORT, HW_I2C_SDA_PIN,
 				HW_I2C_SCL_PORT, HW_I2C_SCL_PIN);
 	} else if(set->type == IMU_TYPE_EXTERNAL_LSM6DS3) {
@@ -206,8 +204,7 @@ void imu_init_lsm6ds3(stm32_gpio_t *sda_gpio, int sda_pin,
 
 }
 
-void imu_stop(void)
-{
+void imu_stop(void) {
 	mpu9150_stop();
 	icm20948_stop(&m_icm20948_state);
 	bmi160_wrapper_stop(&m_bmi_state);
