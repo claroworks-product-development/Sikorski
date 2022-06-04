@@ -7,3 +7,6 @@ bins*/*
 .project
 .cproject
 .settings/language.settings.xml
+downloads/*
+tools/*
+Project/*
