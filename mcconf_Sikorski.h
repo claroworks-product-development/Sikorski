@@ -3,7 +3,6 @@
 #ifndef MCCONF_SIKORSKI_H_
 #define MCCONF_SIKORSKI_H_
 
-
 // PWM Mode
 #define MCCONF_PWM_MODE 1
 
