@@ -249,12 +249,13 @@
 //#define APPCONF_APP_TO_USE			APP_CUSTOM
 //#define APPCONF_CAN_BAUD_RATE		CAN_BAUD_75K
 
-#include "hw.h"
-
 // SIKORSKI
 #include "mcconf_Sikorski.h"
 #include "appconf_sikorski.h"
 // SIKORSKI
+
+#include "hw.h"
+
 /*
  * Enable blackmagic probe output on SWD port
  */
