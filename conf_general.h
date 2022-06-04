@@ -252,7 +252,7 @@
 #include "hw.h"
 
 // SIKORSKI
-#include "mcconf_412_Sikorski.h"
+#include "mcconf_Sikorski.h"
 #include "appconf_sikorski.h"
 // SIKORSKI
 /*
